@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
       font-family: 'Playfair Display', serif;
     }
 
-    /* Grain / Noise effect */
+    /* Noise / Grain */
     .noise::before {
       content: "";
       position: absolute;
@@ -29,63 +29,75 @@
       pointer-events: none;
     }
 
-    /* Hexagon frame lines */
-    .hex-frame::before,
-    .hex-frame::after {
+    /* Hexagon Frame */
+    .hex-frame::before {
       content: "";
       position: absolute;
+      inset: 20px;
       border: 1px solid #c59d5f;
-      width: 120%;
-      height: 120%;
-      top: -10%;
-      left: -10%;
       clip-path: polygon(
-        25% 0%, 75% 0%, 
-        100% 50%, 
-        75% 100%, 25% 100%, 
+        25% 0%, 75% 0%,
+        100% 50%,
+        75% 100%, 25% 100%,
         0% 50%
       );
       pointer-events: none;
     }
 
-    /* Decorative angled lines */
+    /* Corner lines */
     .corner-line-top {
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 10px;
+      left: 10px;
       width: 120px;
       height: 1px;
       background: #c59d5f;
       transform: rotate(25deg);
-      transform-origin: left;
     }
 
     .corner-line-bottom {
       position: absolute;
-      bottom: 0;
-      right: 0;
+      bottom: 10px;
+      right: 10px;
       width: 120px;
       height: 1px;
       background: #c59d5f;
       transform: rotate(25deg);
-      transform-origin: right;
     }
   </style>
 </head>
 
 <body class="bg-black flex items-center justify-center min-h-screen">
 
-  <!-- Container 4:5 -->
+  <!-- Container -->
   <div class="relative w-[360px] aspect-[4/5] overflow-hidden rounded-xl noise">
 
-    <!-- Background Image -->
-    <img 
-      src="https://images.unsplash.com/photo-1606813909023-3b8d0c1d6c1f" 
-      class="absolute inset-0 w-full h-full object-cover"
-    />
+    <!-- Dummy Background SVG -->
+    <div class="absolute inset-0">
+      <svg viewBox="0 0 400 500" class="w-full h-full object-cover">
+        
+        <defs>
+          <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a1a2e"/>
+            <stop offset="100%" stop-color="#000000"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Background -->
+        <rect width="400" height="500" fill="url(#bgGrad)" />
+
+        <!-- Player Silhouette -->
+        <circle cx="200" cy="160" r="55" fill="#2a2a2a"/>
+        <rect x="130" y="210" width="140" height="200" rx="25" fill="#2a2a2a"/>
+
+        <!-- Jersey Accent -->
+        <rect x="130" y="250" width="140" height="50" fill="#c59d5f" opacity="0.4"/>
+
+      </svg>
+    </div>
 
     <!-- Gradient Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
 
     <!-- Hex Frame -->
     <div class="absolute inset-0 hex-frame"></div>
@@ -109,7 +121,7 @@
     <div class="absolute bottom-0 p-6 text-white">
 
       <!-- Category -->
-      <p class="text-xs tracking-[0.3em] text-gray-300 mb-2">
+      <p class="text-xs tracking-[0.35em] text-gray-300 mb-2">
         HISTORY
       </p>
 
@@ -122,7 +134,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="absolute bottom-3 left-0 right-0 text-center text-white font-bold">
+    <div class="absolute bottom-3 left-0 right-0 text-center text-white font-extrabold">
       UltraBall
     </div>
 
