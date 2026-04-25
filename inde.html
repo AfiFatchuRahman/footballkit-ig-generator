@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-display { font-family: 'Poppins', sans-serif; }
+  </style>
+
+  <title>Editorial Showcase</title>
+</head>
+
+<body class="bg-black flex items-center justify-center min-h-screen">
+
+  <!-- 📦 CONTAINER 4:5 -->
+  <div class="relative w-full max-w-md aspect-[4/5] overflow-hidden">
+
+    <!-- 🖼️ MAIN BACKGROUND -->
+    <img 
+      src="https://picsum.photos/800/1000"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+
+    <!-- 🌑 RADIAL VIGNETTE (subtle depth) -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,0,0,0.4),transparent_60%)]"></div>
+
+    <!-- 🌑 STRONG BOTTOM GRADIENT (key element) -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-black/60 via-black/30 to-transparent"></div>
+
+    <!-- 🧩 TOP LEFT LOGOS -->
+    <div class="absolute top-4 left-4 flex items-center gap-3 text-white">
+      <!-- Logo 1 -->
+      <div class="w-6 h-6 border border-white flex items-center justify-center text-[10px] font-bold">
+        L1
+      </div>
+      <!-- Logo 2 -->
+      <div class="w-6 h-6 border border-white flex items-center justify-center text-[10px] font-bold">
+        L2
+      </div>
+    </div>
+
+    <!-- 🖼️ SMALL OVERLAY IMAGE -->
+    <div class="absolute top-6 right-6 w-24 h-32 md:w-28 md:h-36 border-2 border-white overflow-hidden shadow-lg">
+      <img 
+        src="https://picsum.photos/300/400"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <!-- ✍️ TEXT BLOCK -->
+    <div class="absolute bottom-0 left-0 p-6 md:p-8 text-white">
+
+      <!-- Label -->
+      <p class="text-[10px] tracking-[0.3em] opacity-70 mb-3">
+        THE SPONSOR SPOTLIGHT
+      </p>
+
+      <!-- Headline -->
+      <h1 class="font-display font-extrabold text-3xl md:text-4xl leading-tight mb-4">
+        ICONIC<br/>
+        SPONSOR<br/>
+        LEGACY
+      </h1>
+
+      <!-- Body -->
+      <p class="text-sm leading-relaxed max-w-xs opacity-90">
+        A closer look at the evolution of football shirt sponsorships and how branding became part of the game’s identity.
+      </p>
+
+    </div>
+
+    <!-- 🔇 MUTE -->
+    <div class="absolute bottom-4 right-4 bg-black/40 backdrop-blur-sm rounded-full p-2">
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           class="w-4 h-4 text-white opacity-90" 
+           fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+          d="M9 9l6 6m0-6l-6 6M15 9v6M9 9v6" />
+      </svg>
+    </div>
+
+  </div>
+
+</body>
+</html>
