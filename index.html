@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,69 +18,67 @@
     }
   </style>
 
-  <title>Editorial Layout</title>
+  <title>Editorial 4:5</title>
 </head>
 
-<body class="bg-white">
+<body class="bg-white flex items-center justify-center min-h-screen">
 
-  <div class="w-full min-h-screen flex flex-col">
+  <!-- 📦 CONTAINER 4:5 -->
+  <div class="w-full max-w-md aspect-[4/5] flex flex-col overflow-hidden shadow-xl">
 
-    <!-- 🔝 TOP TEXT SECTION -->
-    <section class="bg-[#fdf1e7] px-8 md:px-16 py-12 md:py-16">
+    <!-- 🔝 TEXT -->
+    <section class="bg-[#fdf1e7] px-6 py-6 flex-1 flex flex-col justify-center">
 
-      <div class="max-w-3xl">
-        
+      <div class="max-w-sm">
+
         <!-- Label -->
-        <p class="text-xs tracking-[0.25em] text-gray-600 mb-6">
+        <p class="text-[10px] tracking-[0.3em] text-gray-600 mb-3">
           THE DESIGN
         </p>
 
         <!-- Headline -->
-        <h1 class="font-serif text-4xl md:text-6xl leading-tight text-[#1a1a1a] mb-6">
-          The New Era of Visual Storytelling in Digital Editorial Design
+        <h1 class="font-serif text-2xl leading-tight text-[#1a1a1a] mb-3">
+          Visual Stories Redefined
         </h1>
 
         <!-- Body -->
-        <p class="text-[#4a4a4a] text-base leading-relaxed max-w-xl">
-          Modern editorial layouts are no longer confined to print traditions. 
-          With the rise of digital platforms, designers are embracing bold 
-          typography, immersive imagery, and dynamic compositions to redefine 
-          storytelling in the visual age.
+        <p class="text-xs text-[#4a4a4a] leading-relaxed">
+          A modern approach to editorial design through bold typography and immersive imagery.
         </p>
 
       </div>
     </section>
 
     <!-- 🔴 DIVIDER -->
-    <div class="w-full h-3 bg-[#ff3b00]"></div>
+    <div class="h-2 bg-[#ff3b00]"></div>
 
     <!-- 🖼️ IMAGE GRID -->
-    <section class="relative grid grid-cols-2 w-full h-[70vh]">
+    <section class="relative flex-[1.2] grid grid-cols-2">
 
-      <!-- Left Big Image -->
+      <!-- LEFT BIG -->
       <div class="w-full h-full">
-        <img 
-          src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5"
-          class="w-full h-full object-cover"
-        />
+        <img src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5"
+             class="w-full h-full object-cover"/>
       </div>
 
-      <!-- Right Stacked Images -->
-      <div class="grid grid-rows-2 w-full h-full">
-        <img 
-          src="https://images.unsplash.com/photo-1492724441997-5dc865305da7"
-          class="w-full h-full object-cover"
-        />
-        <img 
-          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-          class="w-full h-full object-cover"
-        />
+      <!-- RIGHT GRID (6 IMAGES) -->
+      <div class="grid grid-cols-2 grid-rows-3 w-full h-full">
+
+        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" class="w-full h-full object-cover"/>
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" class="w-full h-full object-cover"/>
+
+        <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14" class="w-full h-full object-cover"/>
+        <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47" class="w-full h-full object-cover"/>
+
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552" class="w-full h-full object-cover"/>
+        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c" class="w-full h-full object-cover"/>
+
       </div>
 
-      <!-- 🔇 Mute Icon (Instagram Style) -->
-      <div class="absolute bottom-4 right-4 bg-black/30 backdrop-blur-sm rounded-full p-2">
+      <!-- 🔇 Mute Icon -->
+      <div class="absolute bottom-3 right-3 bg-black/30 backdrop-blur-sm rounded-full p-2">
         <svg xmlns="http://www.w3.org/2000/svg" 
-             class="w-5 h-5 text-white opacity-80" 
+             class="w-4 h-4 text-white opacity-80" 
              fill="none" 
              viewBox="0 0 24 24" 
              stroke="currentColor">
