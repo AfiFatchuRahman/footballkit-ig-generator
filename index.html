@@ -3,89 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
     body { font-family: 'Inter', sans-serif; }
     .font-serif { font-family: 'Source Serif 4', serif; }
   </style>
-
-  <title>Editorial Ratio Correct</title>
+  <title>Editorial Ratio Fixed</title>
 </head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-<body class="bg-white flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-md aspect-[4/5] flex flex-col overflow-hidden shadow-2xl bg-white">
 
-  <!-- 📦 4:5 -->
-  <div class="w-full max-w-md aspect-[4/5] flex flex-col overflow-hidden shadow-xl">
-
-    <!-- TEXT -->
-    <section class="bg-[#fdf1e7] px-6 py-6">
-      <p class="text-[10px] tracking-[0.3em] text-gray-600 mb-3">
+    <section class="bg-[#fdf1e7] px-6 py-7">
+      <p class="text-[10px] tracking-[0.3em] text-gray-500 mb-2 font-bold">
         THE DESIGN
       </p>
-
-      <h1 class="font-serif text-2xl leading-tight text-[#1a1a1a] mb-3">
+      <h1 class="font-serif text-3xl leading-tight text-[#1a1a1a] mb-3">
         Visual Stories Redefined
       </h1>
-
-      <p class="text-xs text-[#4a4a4a] leading-relaxed">
+      <p class="text-xs text-[#4a4a4a] leading-relaxed max-w-[90%]">
         A modern approach to editorial design through bold typography and immersive imagery.
       </p>
     </section>
 
-    <!-- IMAGE AREA -->
-    <section class="relative flex-1 grid grid-cols-2 overflow-hidden">
+    <div class="h-1.5 bg-[#ff3b00] w-full"></div>
 
-      <!-- LEFT -->
-      <div class="h-full">
+    <section class="relative flex-1 flex overflow-hidden">
+
+      <div class="w-1/2 h-full">
         <img 
           src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5?q=80&w=1200"
           class="w-full h-full object-cover"
+          alt="Main editorial"
         />
       </div>
 
-      <!-- RIGHT -->
-      <!-- <div class="grid grid-cols-2 auto-rows-max content-start">-->
-<div class="grid grid-cols-2 grid-rows-3 h-full">
-
-  <div class="w-full h-full border-[0.5px] border-white/20">
-        <!-- each = ratio 3:4 -->
-        <div class="aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=800" class="w-full h-full object-cover"/>
+      <div class="w-1/2 h-full grid grid-cols-2 grid-rows-3">
+        
+        <div class="h-full w-full">
+          <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=800" class="w-full h-full object-cover border-[0.5px] border-white/10"/>
         </div>
 
-        <div class="aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800" class="w-full h-full object-cover"/>
+        <div class="h-full w-full">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800" class="w-full h-full object-cover border-[0.5px] border-white/10"/>
         </div>
 
-        <div class="aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14?q=80&w=800" class="w-full h-full object-cover"/>
+        <div class="h-full w-full">
+          <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14?q=80&w=800" class="w-full h-full object-cover border-[0.5px] border-white/10"/>
         </div>
 
-        <div class="aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?q=80&w=800" class="w-full h-full object-cover"/>
+        <div class="h-full w-full">
+          <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?q=80&w=800" class="w-full h-full object-cover border-[0.5px] border-white/10"/>
         </div>
 
-        <div class="aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" class="w-full h-full object-cover"/>
+        <div class="h-full w-full">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" class="w-full h-full object-cover border-[0.5px] border-white/10"/>
         </div>
 
-        <div class="aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800" class="w-full h-full object-cover"/>
+        <div class="h-full w-full">
+          <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800" class="w-full h-full object-cover border-[0.5px] border-white/10"/>
         </div>
 
       </div>
-</div>
 
-      <!-- MUTE -->
-      <div class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm rounded-full p-2">
+      <div class="absolute bottom-4 right-4 bg-black/30 backdrop-blur-md rounded-full p-2.5 cursor-pointer hover:bg-black/50 transition-all">
         <svg xmlns="http://www.w3.org/2000/svg" 
-             class="w-4 h-4 text-white opacity-80" 
+             class="w-4 h-4 text-white" 
              fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-            d="M9 9l6 6m0-6l-6 6M15 9v6M9 9v6" />
+            d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
         </svg>
       </div>
 
