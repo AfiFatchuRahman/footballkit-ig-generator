@@ -4,18 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
-
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .font-display {
-      font-family: 'Poppins', sans-serif;
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .font-display { font-family: 'Poppins', sans-serif; }
   </style>
 
   <title>Editorial Fashion</title>
@@ -23,37 +17,32 @@
 
 <body class="bg-black flex items-center justify-center min-h-screen">
 
-  <!-- 📦 CONTAINER 4:5 -->
   <div class="relative w-full max-w-md aspect-[4/5] overflow-hidden group">
 
-    <!-- 🖼️ BACKGROUND IMAGE -->
+    <!-- IMAGE (FIXED SOURCE) -->
     <img 
-      src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5?q=80&w=1200"
-      class="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 opacity-0"
+      src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
+      class="w-full h-full object-cover transition-all duration-700 ease-out opacity-0 group-hover:scale-105"
       onload="this.classList.remove('opacity-0')"
     />
 
-    <!-- 🌑 GRADIENT OVERLAY -->
+    <!-- GRADIENT -->
     <div class="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/20 to-transparent"></div>
 
-    <!-- ✍️ TEXT BLOCK -->
-    <div class="absolute bottom-0 left-0 p-8 md:p-10 text-white">
-
-      <!-- Label -->
+    <!-- TEXT -->
+    <div class="absolute bottom-0 left-0 p-8 text-white">
       <p class="text-[10px] tracking-[0.3em] opacity-80 mb-3">
         THE JERSEY SCOUT
       </p>
 
-      <!-- Headline -->
-      <h1 class="font-display font-extrabold text-3xl md:text-4xl leading-tight tracking-tight">
+      <h1 class="font-display font-extrabold text-3xl leading-tight tracking-tight">
         MODERN<br/>
         FOOTBALL<br/>
         IDENTITY
       </h1>
-
     </div>
 
-    <!-- 🔇 MUTE ICON -->
+    <!-- MUTE -->
     <div class="absolute bottom-4 right-4 bg-black/40 backdrop-blur-sm rounded-full p-2">
       <svg xmlns="http://www.w3.org/2000/svg" 
            class="w-4 h-4 text-white opacity-90" 
