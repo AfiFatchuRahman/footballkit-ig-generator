@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-mono { font-family: 'Roboto Mono', monospace; }
+  </style>
+
+  <title>Kit Review Editorial</title>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <!-- 📦 CONTAINER 4:5 -->
+  <div class="w-full max-w-md aspect-[4/5] bg-white overflow-hidden shadow-xl flex flex-col">
+
+    <!-- 🖼️ IMAGE AREA -->
+    <div class="relative w-full h-[55%] overflow-hidden">
+
+      <!-- RIGHT TOP (AUTHENTIC) -->
+      <div class="absolute inset-0">
+        <img 
+          src="https://picsum.photos/800/1000?random=1"
+          class="w-full h-full object-cover"
+          style="clip-path: polygon(0 0, 100% 0, 100% 100%);"
+        />
+      </div>
+
+      <!-- LEFT BOTTOM (REPLICA) -->
+      <div class="absolute inset-0">
+        <img 
+          src="https://picsum.photos/800/1000?random=2"
+          class="w-full h-full object-cover"
+          style="clip-path: polygon(0 0, 0 100%, 100% 100%);"
+        />
+      </div>
+
+      <!-- 🏷 LABEL REPLIKA -->
+      <div class="absolute bottom-6 left-4 bg-white px-3 py-1 text-[10px] font-mono tracking-wide">
+        DETAIL FABRIC REPLIKA
+      </div>
+
+      <!-- 🏷 LABEL AUTHENTIC -->
+      <div class="absolute top-6 right-4 bg-white px-3 py-1 text-[10px] font-mono tracking-wide">
+        DETAIL FABRIC AUTHENTIC
+      </div>
+
+      <!-- 🔇 MUTE -->
+      <div class="absolute bottom-4 right-4 bg-black/40 backdrop-blur-sm rounded-full p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-4 h-4 text-white opacity-90" 
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M9 9l6 6m0-6l-6 6M15 9v6M9 9v6" />
+        </svg>
+      </div>
+
+    </div>
+
+    <!-- ✍️ TEXT AREA -->
+    <div class="flex-1 px-6 py-6">
+
+      <!-- HASHTAG -->
+      <p class="text-xs text-gray-400 mb-4">
+        #KULTUITJERSI | #JERSIBAGUS
+      </p>
+
+      <!-- BODY TEXT -->
+      <p class="font-mono text-[12px] leading-relaxed uppercase text-gray-800 max-w-xs">
+        THE REPLICA VERSION FEATURES A SMOOTHER POLYESTER FINISH WITH LESS BREATHABILITY,
+        WHILE THE AUTHENTIC MODEL UTILIZES ADVANCED JACQUARD WEAVING FOR ENHANCED AIRFLOW
+        AND LIGHTWEIGHT PERFORMANCE ON FIELD.
+      </p>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
