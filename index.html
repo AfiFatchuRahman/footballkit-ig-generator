@@ -2,22 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Football Kit Generator</title>
+<title>Football Kit IG Generator</title>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
 body{
-  background:#0a0a0a;
-  color:#fff;
+  background:#0b0b0b;
   font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  color:#fff;
 }
 
 /* HEADER */
 .header{
-  padding:16px;
   text-align:center;
+  padding:16px;
   font-weight:600;
   border-bottom:1px solid #1a1a1a;
 }
@@ -25,13 +25,13 @@ body{
 /* CONTROLS */
 .controls{
   display:flex;
-  gap:8px;
-  padding:10px;
+  gap:10px;
   justify-content:center;
+  padding:12px;
   flex-wrap:wrap;
 }
 
-.controls input{
+input{
   background:#111;
   border:1px solid #222;
   color:#fff;
@@ -39,7 +39,7 @@ body{
   border-radius:8px;
 }
 
-.controls button{
+button{
   background:#fff;
   color:#000;
   border:none;
@@ -49,33 +49,40 @@ body{
   cursor:pointer;
 }
 
-/* SLIDE WRAPPER */
+/* SLIDES */
 .wrapper{
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:40px;
-  padding:30px 0;
+  padding:30px;
 }
 
-/* SLIDE (FIXED IG SIZE) */
 .slide{
   width:320px;
   height:320px;
-  background:#111;
-  border-radius:18px;
-  overflow:hidden;
   position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  background:#111;
 }
 
-/* HERO */
+/* HERO IMAGE */
 .hero img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-.hero-title{
+/* OVERLAY */
+.overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+
+/* TEXT */
+.title{
   position:absolute;
   bottom:20px;
   left:20px;
@@ -83,69 +90,62 @@ body{
   font-weight:700;
 }
 
-/* DETAILS GRID */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:4px;
-  width:100%;
-  height:100%;
-}
-
-.grid div{
-  position:relative;
-}
-
-.grid img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.grid span{
+.subtitle{
   position:absolute;
-  bottom:6px;
-  left:6px;
-  font-size:10px;
-  background:rgba(0,0,0,.6);
-  padding:2px 4px;
-  border-radius:4px;
-}
-
-/* PLAYER */
-.player img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.player span{
-  position:absolute;
-  bottom:10px;
-  left:10px;
+  bottom:50px;
+  left:20px;
   font-size:12px;
-  background:rgba(0,0,0,.6);
-  padding:4px 6px;
-  border-radius:6px;
+  opacity:.8;
 }
 
-/* TEXT SLIDES */
+/* DETAIL SLIDE */
+.detail{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:20px;
+}
+
+.detail img{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.detail-box{
+  position:relative;
+  z-index:2;
+}
+
+.detail-title{
+  font-size:18px;
+  font-weight:600;
+}
+
+.detail-sub{
+  font-size:12px;
+  opacity:.7;
+  margin-top:5px;
+}
+
+/* TEXT SLIDE */
 .text{
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:20px;
+  padding:30px;
 }
 
 .big{
-  font-size:26px;
+  font-size:28px;
   font-weight:700;
 }
 
 .small{
   margin-top:10px;
-  font-size:14px;
   opacity:.7;
+  font-size:14px;
 }
 </style>
 </head>
@@ -157,7 +157,7 @@ body{
 <div class="controls">
   <input id="team" placeholder="Liverpool">
   <input id="year" placeholder="2008">
-  <input type="file" id="upload" multiple>
+  <input type="file" id="upload">
   <button onclick="generate()">Generate</button>
   <button onclick="downloadAll()">Download</button>
 </div>
@@ -165,24 +165,16 @@ body{
 <div class="wrapper" id="slides"></div>
 
 <script>
-let images=[];
+let image=null;
 
-const dummy=[
-  "https://images.unsplash.com/photo-1521417531039-8c1b6b9c1f8d",
-  "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a",
-  "https://images.unsplash.com/photo-1508098682722-e99c643e7f0b",
-  "https://images.unsplash.com/photo-1522778119026-d647f0596c20"
-];
+const dummy="https://images.unsplash.com/photo-1508098682722-e99c643e7f0b";
 
 document.getElementById("upload").addEventListener("change",e=>{
-  images=[];
-  for(let f of e.target.files){
-    images.push(URL.createObjectURL(f));
-  }
+  image=URL.createObjectURL(e.target.files[0]);
 });
 
-function getImgs(){
-  return images.length?images:dummy;
+function getImg(){
+  return image||dummy;
 }
 
 /* SLIDES */
@@ -190,29 +182,34 @@ function getImgs(){
 function slide1(team,year){
   return `
   <div class="slide hero">
-    <img src="${getImgs()[0]}">
-    <div class="hero-title">${team} ${year}</div>
+    <img src="${getImg()}">
+    <div class="overlay"></div>
+    <div class="subtitle">Home Kit</div>
+    <div class="title">${team} ${year}</div>
   </div>`;
 }
 
 function slide2(){
-  const labels=["Badge","Sponsor","Nameset","Patch"];
   return `
-  <div class="slide grid">
-    ${getImgs().slice(0,4).map((i,idx)=>`
-      <div>
-        <img src="${i}">
-        <span>${labels[idx]}</span>
-      </div>
-    `).join("")}
+  <div class="slide detail">
+    <img src="${getImg()}">
+    <div class="overlay"></div>
+    <div class="detail-box">
+      <div class="detail-title">Jersey Details</div>
+      <div class="detail-sub">Badge • Sponsor • Nameset • Patch</div>
+    </div>
   </div>`;
 }
 
 function slide3(){
   return `
-  <div class="slide player">
-    <img src="${getImgs()[1]}">
-    <span>Key Player</span>
+  <div class="slide detail">
+    <img src="${getImg()}">
+    <div class="overlay"></div>
+    <div class="detail-box">
+      <div class="detail-title">Players</div>
+      <div class="detail-sub">Gerrard • Torres • Alonso</div>
+    </div>
   </div>`;
 }
 
