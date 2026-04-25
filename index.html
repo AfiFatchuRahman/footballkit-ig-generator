@@ -29,7 +29,16 @@
     />
 
     <!-- 🌑 RADIAL VIGNETTE (subtle depth) -->
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,0,0,0.4),transparent_60%)]"></div>
+    <!--<div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,0,0,0.4),transparent_60%)]"></div>-->
+    <!-- gradient area -->
+<div class="absolute bottom-0 left-0 w-full h-[65%] 
+  bg-[linear-gradient(to_top,
+    rgba(0,0,0,1)_0%,
+    rgba(0,0,0,0.85)_30%,
+    rgba(0,0,0,0.5)_60%,
+    rgba(0,0,0,0)_100%
+  )]">
+</div>
 
     <!-- 🌑 STRONG BOTTOM GRADIENT (key element) -->
     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-black/60 via-black/30 to-transparent"></div>
@@ -73,16 +82,6 @@
         A closer look at the evolution of football shirt sponsorships and how branding became part of the game’s identity.
       </p>
 
-    </div>
-
-    <!-- 🔇 MUTE -->
-    <div class="absolute bottom-4 right-4 bg-black/40 backdrop-blur-sm rounded-full p-2">
-      <svg xmlns="http://www.w3.org/2000/svg" 
-           class="w-4 h-4 text-white opacity-90" 
-           fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-          d="M9 9l6 6m0-6l-6 6M15 9v6M9 9v6" />
-      </svg>
     </div>
 
   </div>
