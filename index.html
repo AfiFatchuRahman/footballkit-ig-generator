@@ -6,113 +6,124 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
-body {
-  margin: 0;
-  background: #0f0f0f;
-  color: #fff;
-  font-family: Arial, sans-serif;
+body{
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#0b0b0b;
+  color:#fff;
 }
 
 /* HEADER */
-.header {
-  padding: 20px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
+.header{
+  padding:20px;
+  font-weight:600;
+  font-size:18px;
+  text-align:center;
+  border-bottom:1px solid #1a1a1a;
 }
 
 /* CONTROLS */
-.controls {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 500px;
-  margin: auto;
+.controls{
+  display:flex;
+  gap:10px;
+  padding:15px;
+  overflow:auto;
 }
 
-input, button {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
+.controls input{
+  background:#111;
+  border:1px solid #222;
+  color:#fff;
+  padding:10px;
+  border-radius:8px;
+  min-width:120px;
 }
 
-input {
-  background: #1a1a1a;
-  color: white;
+.controls button{
+  background:#fff;
+  color:#000;
+  border:none;
+  padding:10px 16px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
 }
 
-button {
-  background: #c40000;
-  color: white;
-  cursor: pointer;
+/* SLIDES GRID */
+.container{
+  display:flex;
+  gap:20px;
+  padding:20px;
+  overflow-x:auto;
 }
 
-/* SLIDES */
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 15px;
-  padding: 20px;
+.slide{
+  min-width:320px;
+  height:320px;
+  background:#111;
+  border-radius:16px;
+  position:relative;
+  overflow:hidden;
 }
 
-.slide {
-  aspect-ratio: 1/1;
-  background: linear-gradient(135deg, #8B0000, #c40000);
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
+/* HERO IMAGE */
+.hero{
+  position:absolute;
+  width:75%;
+  top:20px;
+  left:20px;
+  transform:rotate(-3deg);
 }
 
-/* IMAGE */
-.img-wrap {
-  position: absolute;
+/* SMALL STACK */
+.stack{
+  position:absolute;
+  bottom:60px;
+  right:20px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
 }
 
-.img-wrap img {
-  width: 100%;
-  display: block;
-  border-radius: 6px;
+.stack img{
+  width:80px;
+  border-radius:6px;
 }
 
-.caption {
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  font-size: 10px;
-  opacity: 0.8;
+/* CAPTION */
+.caption{
+  font-size:10px;
+  opacity:.7;
+  margin-top:2px;
 }
 
 /* TEXT */
-.title {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  font-size: 16px;
-  font-weight: bold;
+.title{
+  position:absolute;
+  bottom:20px;
+  left:20px;
+  font-size:18px;
+  font-weight:600;
 }
 
-.subtitle {
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  font-size: 11px;
-  opacity: 0.8;
+.sub{
+  position:absolute;
+  top:15px;
+  left:20px;
+  font-size:11px;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">Football Kit Generator</div>
+<div class="header">footballkitcircle</div>
 
 <div class="controls">
-  <input id="team" placeholder="Team (Liverpool)">
-  <input id="year" placeholder="Year (2008)">
+  <input id="team" placeholder="Liverpool">
+  <input id="year" placeholder="2008">
   <input type="file" id="upload" multiple>
   <button onclick="generate()">Generate</button>
   <button onclick="downloadAll()">Download</button>
@@ -123,105 +134,95 @@ button {
 <script>
 let images = [];
 
-// Dummy + caption
-const dummyData = [
-  {src:"https://images.unsplash.com/photo-1521417531039-8c1b6b9c1f8d", cap:"Badge"},
-  {src:"https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a", cap:"Sponsor"},
-  {src:"https://images.unsplash.com/photo-1508098682722-e99c643e7f0b", cap:"Player"},
-  {src:"https://images.unsplash.com/photo-1522778119026-d647f0596c20", cap:"Match"},
-  {src:"https://images.unsplash.com/photo-1517649763962-0c623066013b", cap:"Detail"}
+// Dummy data (with caption)
+const dummy = [
+  {src:"https://images.unsplash.com/photo-1521417531039-8c1b6b9c1f8d",cap:"Badge"},
+  {src:"https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a",cap:"Sponsor"},
+  {src:"https://images.unsplash.com/photo-1508098682722-e99c643e7f0b",cap:"Player"},
+  {src:"https://images.unsplash.com/photo-1522778119026-d647f0596c20",cap:"Match"}
 ];
 
-document.getElementById("upload").addEventListener("change", function(e){
-  images = [];
-  for (let file of e.target.files) {
-    images.push({
-      src: URL.createObjectURL(file),
-      cap: "Custom"
-    });
+document.getElementById("upload").addEventListener("change",e=>{
+  images=[];
+  for(let file of e.target.files){
+    images.push({src:URL.createObjectURL(file),cap:"Custom"});
   }
 });
 
-function random(min,max){
-  return Math.random()*(max-min)+min;
-}
+function createSlide(title,sub){
+  const used = images.length?images:dummy;
 
-function createImage(item){
-  const wrap = document.createElement("div");
-  wrap.className = "img-wrap";
+  const div=document.createElement("div");
+  div.className="slide";
 
-  wrap.style.width = random(80,160)+"px";
-  wrap.style.top = random(0,220)+"px";
-  wrap.style.left = random(0,220)+"px";
-  wrap.style.transform = `rotate(${random(-10,10)}deg)`;
+  // HERO
+  const hero=document.createElement("img");
+  hero.className="hero";
+  hero.src=used[0].src;
 
-  const img = document.createElement("img");
-  img.src = item.src;
+  // STACK
+  const stack=document.createElement("div");
+  stack.className="stack";
 
-  const cap = document.createElement("div");
-  cap.className = "caption";
-  cap.innerText = item.cap;
+  used.slice(1,4).forEach(i=>{
+    const wrap=document.createElement("div");
 
-  wrap.appendChild(img);
-  wrap.appendChild(cap);
+    const img=document.createElement("img");
+    img.src=i.src;
 
-  return wrap;
-}
+    const cap=document.createElement("div");
+    cap.className="caption";
+    cap.innerText=i.cap;
 
-function createSlide(titleText, subtitleText){
-  const div = document.createElement("div");
-  div.className = "slide";
-
-  const used = images.length ? images : dummyData;
-
-  used.slice(0,4).forEach(item=>{
-    div.appendChild(createImage(item));
+    wrap.appendChild(img);
+    wrap.appendChild(cap);
+    stack.appendChild(wrap);
   });
 
-  const title = document.createElement("div");
-  title.className = "title";
-  title.innerText = titleText;
+  const t=document.createElement("div");
+  t.className="title";
+  t.innerText=title;
 
-  const sub = document.createElement("div");
-  sub.className = "subtitle";
-  sub.innerText = subtitleText;
+  const s=document.createElement("div");
+  s.className="sub";
+  s.innerText=sub;
 
-  div.appendChild(title);
-  div.appendChild(sub);
+  div.appendChild(hero);
+  div.appendChild(stack);
+  div.appendChild(t);
+  div.appendChild(s);
 
   return div;
 }
 
 function generate(){
-  const team = document.getElementById("team").value || "Liverpool";
-  const year = document.getElementById("year").value || "2008";
+  const team=document.getElementById("team").value||"Liverpool";
+  const year=document.getElementById("year").value||"2008";
 
-  const container = document.getElementById("slides");
-  container.innerHTML = "";
-
-  const slides = [
-    [`${team} ${year}`, "Home Kit"],
-    ["Jersey Details", "Badge • Sponsor • Nameset"],
-    ["Players", "Key Squad"],
-    ["Competitions", "EPL • UCL"],
-    ["Achievements", "Season Result"],
-    ["Fun Facts", "Did You Know?"]
+  const data=[
+    [`${team} ${year}`,"Home Kit"],
+    ["Jersey Details","Breakdown"],
+    ["Players","Squad"],
+    ["Competitions","Matches"],
+    ["Achievements","Season"],
+    ["Fun Facts","Extra"]
   ];
 
-  slides.forEach(s=>{
-    container.appendChild(createSlide(s[0], s[1]));
+  const container=document.getElementById("slides");
+  container.innerHTML="";
+
+  data.forEach(d=>{
+    container.appendChild(createSlide(d[0],d[1]));
   });
 }
 
 function downloadAll(){
-  const slides = document.querySelectorAll(".slide");
-
-  slides.forEach((slide,i)=>{
-    html2canvas(slide).then(canvas=>{
-      const link = document.createElement("a");
-      link.download = `slide-${i+1}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
+  document.querySelectorAll(".slide").forEach((s,i)=>{
+    html2canvas(s).then(c=>{
+      const a=document.createElement("a");
+      a.href=c.toDataURL();
+      a.download=`slide-${i+1}.png`;
+      a.click();
     });
   });
 }
