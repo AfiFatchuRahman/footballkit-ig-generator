@@ -4,84 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
-
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .font-serif {
-      font-family: 'Source Serif 4', serif;
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .font-serif { font-family: 'Source Serif 4', serif; }
   </style>
 
-  <title>Editorial 4:5</title>
+  <title>Editorial 4:5 Fix</title>
 </head>
 
 <body class="bg-white flex items-center justify-center min-h-screen">
 
-  <!-- 📦 CONTAINER 4:5 -->
+  <!-- 📦 4:5 -->
   <div class="w-full max-w-md aspect-[4/5] flex flex-col overflow-hidden shadow-xl">
 
-    <!-- 🔝 TEXT -->
-    <section class="bg-[#fdf1e7] px-6 py-6 flex-1 flex flex-col justify-center">
+    <!-- TEXT -->
+    <section class="bg-[#fdf1e7] px-6 py-6">
+      <p class="text-[10px] tracking-[0.3em] text-gray-600 mb-3">
+        THE DESIGN
+      </p>
 
-      <div class="max-w-sm">
+      <h1 class="font-serif text-2xl leading-tight text-[#1a1a1a] mb-3">
+        Visual Stories Redefined
+      </h1>
 
-        <!-- Label -->
-        <p class="text-[10px] tracking-[0.3em] text-gray-600 mb-3">
-          THE DESIGN
-        </p>
-
-        <!-- Headline -->
-        <h1 class="font-serif text-2xl leading-tight text-[#1a1a1a] mb-3">
-          Visual Stories Redefined
-        </h1>
-
-        <!-- Body -->
-        <p class="text-xs text-[#4a4a4a] leading-relaxed">
-          A modern approach to editorial design through bold typography and immersive imagery.
-        </p>
-
-      </div>
+      <p class="text-xs text-[#4a4a4a] leading-relaxed">
+        A modern approach to editorial design through bold typography and immersive imagery.
+      </p>
     </section>
 
-    <!-- 🔴 DIVIDER -->
+    <!-- DIVIDER -->
     <div class="h-2 bg-[#ff3b00]"></div>
 
-    <!-- 🖼️ IMAGE GRID -->
-    <section class="relative flex-[1.2] grid grid-cols-2">
+    <!-- IMAGE GRID -->
+    <section class="relative flex-1 grid grid-cols-2">
 
-      <!-- LEFT BIG -->
-      <div class="w-full h-full">
+      <!-- LEFT -->
+      <div class="h-full">
         <img src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5"
              class="w-full h-full object-cover"/>
       </div>
 
-      <!-- RIGHT GRID (6 IMAGES) -->
-      <div class="grid grid-cols-2 grid-rows-3 w-full h-full">
+      <!-- RIGHT -->
+      <div class="grid grid-cols-2 grid-rows-3 h-full">
 
+        <!-- row 1 -->
         <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" class="w-full h-full object-cover"/>
         <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" class="w-full h-full object-cover"/>
 
+        <!-- row 2 -->
         <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14" class="w-full h-full object-cover"/>
         <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47" class="w-full h-full object-cover"/>
 
+        <!-- row 3 -->
         <img src="https://images.unsplash.com/photo-1519741497674-611481863552" class="w-full h-full object-cover"/>
         <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c" class="w-full h-full object-cover"/>
 
       </div>
 
-      <!-- 🔇 Mute Icon -->
+      <!-- MUTE -->
       <div class="absolute bottom-3 right-3 bg-black/30 backdrop-blur-sm rounded-full p-2">
         <svg xmlns="http://www.w3.org/2000/svg" 
              class="w-4 h-4 text-white opacity-80" 
-             fill="none" 
-             viewBox="0 0 24 24" 
-             stroke="currentColor">
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
             d="M9 9l6 6m0-6l-6 6M15 9v6M9 9v6" />
         </svg>
