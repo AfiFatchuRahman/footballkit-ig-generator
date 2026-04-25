@@ -2,24 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Football Kit Generator</title>
+<title>Football Kit Editorial Generator</title>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background:#0b0b0b;
-  color:#fff;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#fff;font-family:sans-serif}
 
 /* HEADER */
 .header{
-  padding:20px;
-  font-weight:600;
-  font-size:18px;
+  padding:16px;
   text-align:center;
+  font-weight:600;
   border-bottom:1px solid #1a1a1a;
 }
 
@@ -27,92 +21,96 @@ body{
 .controls{
   display:flex;
   gap:10px;
-  padding:15px;
+  padding:12px;
   overflow:auto;
 }
-
-.controls input{
-  background:#111;
-  border:1px solid #222;
-  color:#fff;
+.controls input, .controls button{
   padding:10px;
   border-radius:8px;
-  min-width:120px;
-}
-
-.controls button{
-  background:#fff;
-  color:#000;
   border:none;
-  padding:10px 16px;
-  border-radius:8px;
-  font-weight:600;
-  cursor:pointer;
 }
+.controls input{background:#111;color:#fff}
+.controls button{background:#fff;color:#000;font-weight:600}
 
-/* SLIDES GRID */
+/* SLIDES */
 .container{
   display:flex;
   gap:20px;
   padding:20px;
   overflow-x:auto;
 }
-
 .slide{
-  min-width:320px;
+  width:320px;
   height:320px;
   background:#111;
-  border-radius:16px;
-  position:relative;
+  border-radius:14px;
   overflow:hidden;
+  position:relative;
 }
 
-/* HERO IMAGE */
-.hero{
-  position:absolute;
-  width:75%;
-  top:20px;
-  left:20px;
-  transform:rotate(-3deg);
+/* SLIDE 1 HERO */
+.hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
-
-/* SMALL STACK */
-.stack{
-  position:absolute;
-  bottom:60px;
-  right:20px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-.stack img{
-  width:80px;
-  border-radius:6px;
-}
-
-/* CAPTION */
-.caption{
-  font-size:10px;
-  opacity:.7;
-  margin-top:2px;
-}
-
-/* TEXT */
-.title{
+.hero-title{
   position:absolute;
   bottom:20px;
   left:20px;
-  font-size:18px;
-  font-weight:600;
+  font-size:20px;
+  font-weight:700;
 }
 
-.sub{
+/* SLIDE 2 GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4px;
+  height:100%;
+}
+.grid div{
+  position:relative;
+}
+.grid img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.grid span{
   position:absolute;
-  top:15px;
-  left:20px;
-  font-size:11px;
-  opacity:.6;
+  bottom:5px;
+  left:5px;
+  font-size:10px;
+}
+
+/* SLIDE 3 PLAYER */
+.player img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.player span{
+  position:absolute;
+  bottom:10px;
+  left:10px;
+}
+
+/* TEXT SLIDES */
+.text-slide{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:20px;
+}
+.big{
+  font-size:28px;
+  font-weight:700;
+}
+.small{
+  font-size:14px;
+  opacity:.7;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -132,88 +130,78 @@ body{
 <div class="container" id="slides"></div>
 
 <script>
-let images = [];
+let images=[];
 
-// Dummy data (with caption)
-const dummy = [
-  {src:"https://images.unsplash.com/photo-1521417531039-8c1b6b9c1f8d",cap:"Badge"},
-  {src:"https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a",cap:"Sponsor"},
-  {src:"https://images.unsplash.com/photo-1508098682722-e99c643e7f0b",cap:"Player"},
-  {src:"https://images.unsplash.com/photo-1522778119026-d647f0596c20",cap:"Match"}
+const dummy=[
+  "https://images.unsplash.com/photo-1521417531039-8c1b6b9c1f8d",
+  "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a",
+  "https://images.unsplash.com/photo-1508098682722-e99c643e7f0b",
+  "https://images.unsplash.com/photo-1522778119026-d647f0596c20"
 ];
 
 document.getElementById("upload").addEventListener("change",e=>{
   images=[];
-  for(let file of e.target.files){
-    images.push({src:URL.createObjectURL(file),cap:"Custom"});
+  for(let f of e.target.files){
+    images.push(URL.createObjectURL(f));
   }
 });
 
-function createSlide(title,sub){
-  const used = images.length?images:dummy;
+function getImgs(){
+  return images.length?images:dummy;
+}
 
-  const div=document.createElement("div");
-  div.className="slide";
+function slide1(team,year){
+  const img=getImgs()[0];
+  return `
+  <div class="slide hero">
+    <img src="${img}">
+    <div class="hero-title">${team} ${year}</div>
+  </div>`;
+}
 
-  // HERO
-  const hero=document.createElement("img");
-  hero.className="hero";
-  hero.src=used[0].src;
+function slide2(){
+  const imgs=getImgs();
+  return `
+  <div class="slide grid">
+    ${imgs.map((i,idx)=>`
+      <div>
+        <img src="${i}">
+        <span>${["Badge","Sponsor","Nameset","Patch"][idx]||"Detail"}</span>
+      </div>
+    `).join("")}
+  </div>`;
+}
 
-  // STACK
-  const stack=document.createElement("div");
-  stack.className="stack";
+function slide3(){
+  return `
+  <div class="slide player">
+    <img src="${getImgs()[1]}">
+    <span>Key Player</span>
+  </div>`;
+}
 
-  used.slice(1,4).forEach(i=>{
-    const wrap=document.createElement("div");
-
-    const img=document.createElement("img");
-    img.src=i.src;
-
-    const cap=document.createElement("div");
-    cap.className="caption";
-    cap.innerText=i.cap;
-
-    wrap.appendChild(img);
-    wrap.appendChild(cap);
-    stack.appendChild(wrap);
-  });
-
-  const t=document.createElement("div");
-  t.className="title";
-  t.innerText=title;
-
-  const s=document.createElement("div");
-  s.className="sub";
-  s.innerText=sub;
-
-  div.appendChild(hero);
-  div.appendChild(stack);
-  div.appendChild(t);
-  div.appendChild(s);
-
-  return div;
+function slideText(title,sub){
+  return `
+  <div class="slide text-slide">
+    <div class="big">${title}</div>
+    <div class="small">${sub}</div>
+  </div>`;
 }
 
 function generate(){
   const team=document.getElementById("team").value||"Liverpool";
   const year=document.getElementById("year").value||"2008";
 
-  const data=[
-    [`${team} ${year}`,"Home Kit"],
-    ["Jersey Details","Breakdown"],
-    ["Players","Squad"],
-    ["Competitions","Matches"],
-    ["Achievements","Season"],
-    ["Fun Facts","Extra"]
-  ];
+  const html = [
+    slide1(team,year),
+    slide2(),
+    slide3(),
+    slideText("Competitions","EPL • UCL • FA Cup"),
+    slideText("Achievements","86 Points • Runner Up"),
+    slideText("Fun Facts","Iconic season under Rafa Benitez")
+  ].join("");
 
-  const container=document.getElementById("slides");
-  container.innerHTML="";
-
-  data.forEach(d=>{
-    container.appendChild(createSlide(d[0],d[1]));
-  });
+  document.getElementById("slides").innerHTML=html;
 }
 
 function downloadAll(){
