@@ -12,7 +12,7 @@
     .font-serif { font-family: 'Source Serif 4', serif; }
   </style>
 
-  <title>Editorial 4:5 Fix</title>
+  <title>Editorial 4:5 Clean</title>
 </head>
 
 <body class="bg-white flex items-center justify-center min-h-screen">
@@ -38,34 +38,48 @@
     <!-- DIVIDER -->
     <div class="h-2 bg-[#ff3b00]"></div>
 
-    <!-- IMAGE GRID -->
+    <!-- GRID -->
     <section class="relative flex-1 grid grid-cols-2">
 
       <!-- LEFT -->
-      <div class="h-full">
-        <img src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5"
-             class="w-full h-full object-cover"/>
+      <div class="h-full bg-black flex items-center justify-center">
+        <img 
+          src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5?q=80&w=1200"
+          class="w-full h-full object-contain"
+        />
       </div>
 
       <!-- RIGHT -->
-      <div class="grid grid-cols-2 grid-rows-3 h-full">
+      <div class="grid grid-cols-2 grid-rows-[repeat(3,minmax(0,1fr))] h-full">
 
-        <!-- row 1 -->
-        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" class="w-full h-full object-cover"/>
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" class="w-full h-full object-cover"/>
+        <div class="bg-black flex items-center justify-center">
+          <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=800" class="w-full h-full object-contain"/>
+        </div>
 
-        <!-- row 2 -->
-        <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14" class="w-full h-full object-cover"/>
-        <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47" class="w-full h-full object-cover"/>
+        <div class="bg-black flex items-center justify-center">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800" class="w-full h-full object-contain"/>
+        </div>
 
-        <!-- row 3 -->
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552" class="w-full h-full object-cover"/>
-        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c" class="w-full h-full object-cover"/>
+        <div class="bg-black flex items-center justify-center">
+          <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14?q=80&w=800" class="w-full h-full object-contain"/>
+        </div>
+
+        <div class="bg-black flex items-center justify-center">
+          <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?q=80&w=800" class="w-full h-full object-contain"/>
+        </div>
+
+        <div class="bg-black flex items-center justify-center">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" class="w-full h-full object-contain"/>
+        </div>
+
+        <div class="bg-black flex items-center justify-center">
+          <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800" class="w-full h-full object-contain"/>
+        </div>
 
       </div>
 
-      <!-- MUTE -->
-      <div class="absolute bottom-3 right-3 bg-black/30 backdrop-blur-sm rounded-full p-2">
+      <!-- MUTE ICON -->
+      <div class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm rounded-full p-2">
         <svg xmlns="http://www.w3.org/2000/svg" 
              class="w-4 h-4 text-white opacity-80" 
              fill="none" viewBox="0 0 24 24" stroke="currentColor">
