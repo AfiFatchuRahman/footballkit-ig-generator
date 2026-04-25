@@ -12,12 +12,12 @@
     .font-serif { font-family: 'Source Serif 4', serif; }
   </style>
 
-  <title>Editorial 4:5 Clean</title>
+  <title>Editorial Stable Grid</title>
 </head>
 
 <body class="bg-white flex items-center justify-center min-h-screen">
 
-  <!-- 📦 4:5 -->
+  <!-- 📦 CONTAINER 4:5 -->
   <div class="w-full max-w-md aspect-[4/5] flex flex-col overflow-hidden shadow-xl">
 
     <!-- TEXT -->
@@ -38,47 +38,48 @@
     <!-- DIVIDER -->
     <div class="h-2 bg-[#ff3b00]"></div>
 
-    <!-- GRID -->
-    <section class="relative flex-1 grid grid-cols-2">
+    <!-- IMAGE AREA -->
+    <section class="relative flex-1 grid grid-cols-2 overflow-hidden">
 
-      <!-- LEFT -->
-      <div class="h-full bg-black flex items-center justify-center">
+      <!-- LEFT (FULL HEIGHT) -->
+      <div class="h-full">
         <img 
           src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5?q=80&w=1200"
-          class="w-full h-full object-contain"
+          class="w-full h-full object-cover"
         />
       </div>
 
-      <!-- RIGHT -->
-      <div class="grid grid-cols-2 grid-rows-[repeat(3,minmax(0,1fr))] h-full">
+      <!-- RIGHT (6 SQUARE IMAGES) -->
+      <div class="grid grid-cols-2 gap-0 content-start">
 
-        <div class="bg-black flex items-center justify-center">
-          <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=800" class="w-full h-full object-contain"/>
+        <!-- 6 square cells -->
+        <div class="aspect-square">
+          <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=800" class="w-full h-full object-cover"/>
         </div>
 
-        <div class="bg-black flex items-center justify-center">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800" class="w-full h-full object-contain"/>
+        <div class="aspect-square">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800" class="w-full h-full object-cover"/>
         </div>
 
-        <div class="bg-black flex items-center justify-center">
-          <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14?q=80&w=800" class="w-full h-full object-contain"/>
+        <div class="aspect-square">
+          <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a14?q=80&w=800" class="w-full h-full object-cover"/>
         </div>
 
-        <div class="bg-black flex items-center justify-center">
-          <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?q=80&w=800" class="w-full h-full object-contain"/>
+        <div class="aspect-square">
+          <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?q=80&w=800" class="w-full h-full object-cover"/>
         </div>
 
-        <div class="bg-black flex items-center justify-center">
-          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" class="w-full h-full object-contain"/>
+        <div class="aspect-square">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" class="w-full h-full object-cover"/>
         </div>
 
-        <div class="bg-black flex items-center justify-center">
-          <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800" class="w-full h-full object-contain"/>
+        <div class="aspect-square">
+          <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800" class="w-full h-full object-cover"/>
         </div>
 
       </div>
 
-      <!-- MUTE ICON -->
+      <!-- MUTE -->
       <div class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm rounded-full p-2">
         <svg xmlns="http://www.w3.org/2000/svg" 
              class="w-4 h-4 text-white opacity-80" 
