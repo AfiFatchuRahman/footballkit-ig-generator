@@ -12,7 +12,6 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
 
-    /* grain */
     .grain::after {
       content: "";
       position: absolute;
@@ -28,16 +27,16 @@
 
 <body class="bg-black flex items-center justify-center min-h-screen">
 
-  <!-- 📦 CONTAINER 4:5 -->
+  <!-- 📦 CONTAINER -->
   <div class="relative w-full max-w-md aspect-[4/5] overflow-hidden text-white grain">
 
-    <!-- 🖼️ BACKGROUND IMAGE -->
+    <!-- 🖼️ BG -->
     <img 
       src="https://picsum.photos/800/1000?grayscale"
       class="absolute inset-0 w-full h-full object-cover"
     />
 
-    <!-- 🌑 STRONG BOTTOM GRADIENT -->
+    <!-- 🌑 GRADIENT -->
     <div class="absolute bottom-0 left-0 w-full h-[65%] 
       bg-gradient-to-t 
       from-black 
@@ -46,28 +45,28 @@
       to-transparent">
     </div>
 
-    <!-- ✍️ CONTENT -->
-    <div class="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
+    <!-- 🧩 CONTENT WRAPPER -->
+    <div class="absolute inset-0 p-6 md:p-8">
 
-      <!-- 🔝 TAGLINE -->
-      <div>
+      <!-- 🔝 LEFT TAGLINE -->
+      <div class="absolute top-6 left-6 md:left-8">
         <h1 class="text-2xl md:text-3xl font-extrabold leading-tight">
           YOUR KITS.<br/>
           YOUR STORY.
         </h1>
       </div>
 
-      <!-- 🔻 BOTTOM TEXT -->
-      <div>
+      <!-- 🎯 CENTER CONTENT -->
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
 
         <!-- supporting -->
-        <p class="text-sm leading-relaxed opacity-80 mb-6 max-w-xs">
+        <p class="text-sm leading-relaxed opacity-85 mb-6 max-w-xs">
           Every kit tells a story.<br/>
           Start documenting yours.
         </p>
 
         <!-- CTA -->
-        <p class="text-sm tracking-wide leading-relaxed">
+        <p class="text-sm leading-relaxed">
           Follow us and go to<br/>
           <span class="font-semibold">
             www.footballkitcircle.com
