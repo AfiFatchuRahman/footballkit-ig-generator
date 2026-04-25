@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-serif {
+      font-family: 'Source Serif 4', serif;
+    }
+  </style>
+
+  <title>Editorial Layout</title>
+</head>
+
+<body class="bg-white">
+
+  <div class="w-full min-h-screen flex flex-col">
+
+    <!-- 🔝 TOP TEXT SECTION -->
+    <section class="bg-[#fdf1e7] px-8 md:px-16 py-12 md:py-16">
+
+      <div class="max-w-3xl">
+        
+        <!-- Label -->
+        <p class="text-xs tracking-[0.25em] text-gray-600 mb-6">
+          THE DESIGN
+        </p>
+
+        <!-- Headline -->
+        <h1 class="font-serif text-4xl md:text-6xl leading-tight text-[#1a1a1a] mb-6">
+          The New Era of Visual Storytelling in Digital Editorial Design
+        </h1>
+
+        <!-- Body -->
+        <p class="text-[#4a4a4a] text-base leading-relaxed max-w-xl">
+          Modern editorial layouts are no longer confined to print traditions. 
+          With the rise of digital platforms, designers are embracing bold 
+          typography, immersive imagery, and dynamic compositions to redefine 
+          storytelling in the visual age.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- 🔴 DIVIDER -->
+    <div class="w-full h-3 bg-[#ff3b00]"></div>
+
+    <!-- 🖼️ IMAGE GRID -->
+    <section class="relative grid grid-cols-2 w-full h-[70vh]">
+
+      <!-- Left Big Image -->
+      <div class="w-full h-full">
+        <img 
+          src="https://images.unsplash.com/photo-1520975922284-9e0fef5b67c5"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Right Stacked Images -->
+      <div class="grid grid-rows-2 w-full h-full">
+        <img 
+          src="https://images.unsplash.com/photo-1492724441997-5dc865305da7"
+          class="w-full h-full object-cover"
+        />
+        <img 
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- 🔇 Mute Icon (Instagram Style) -->
+      <div class="absolute bottom-4 right-4 bg-black/30 backdrop-blur-sm rounded-full p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-5 h-5 text-white opacity-80" 
+             fill="none" 
+             viewBox="0 0 24 24" 
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M9 9l6 6m0-6l-6 6M15 9v6M9 9v6" />
+        </svg>
+      </div>
+
+    </section>
+
+  </div>
+
+</body>
+</html>
