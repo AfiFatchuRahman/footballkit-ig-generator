@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Football Kit Generator</title>
+<title>Football Kit Carousel Generator PRO</title>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
@@ -13,82 +13,149 @@ body {
   text-align: center;
 }
 
-#canvas {
-  width: 1080px;
-  height: 1080px;
-  margin: auto;
+.controls {
+  margin-bottom: 20px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.slide {
+  width: 360px;
+  height: 360px;
   background: linear-gradient(135deg, #8B0000, #c40000);
   position: relative;
   overflow: hidden;
 }
 
-.hero {
-  position: absolute;
-  width: 600px;
-  top: 120px;
-  left: 60px;
-  transform: rotate(-3deg);
-}
-
-.small {
-  position: absolute;
-  width: 260px;
-  transform: rotate(2deg);
-}
-
-.s1 { top: 60px; right: 60px; }
-.s2 { bottom: 120px; left: 80px; }
-.s3 { bottom: 60px; right: 120px; }
-
 .title {
   position: absolute;
-  bottom: 60px;
-  left: 50px;
-  font-size: 64px;
+  bottom: 15px;
+  left: 15px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 .subtitle {
   position: absolute;
-  bottom: 20px;
-  left: 50px;
-  font-size: 24px;
+  top: 10px;
+  left: 15px;
+  font-size: 12px;
   opacity: 0.8;
+}
+
+img {
+  position: absolute;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
 }
 </style>
 </head>
 
 <body>
 
-<h2>Football Kit Generator</h2>
+<h2>Football Kit Carousel Generator PRO</h2>
 
-<input id="titleInput" placeholder="Liverpool 2008"><br><br>
-
-<button onclick="generate()">Generate</button>
-<button onclick="download()">Download</button>
-
-<div id="canvas">
-  <img class="hero" src="https://via.placeholder.com/600">
-  <img class="small s1" src="https://via.placeholder.com/250">
-  <img class="small s2" src="https://via.placeholder.com/250">
-  <img class="small s3" src="https://via.placeholder.com/250">
-
-  <div class="title" id="title">TITLE</div>
-  <div class="subtitle">footballkitcircle</div>
+<div class="controls">
+  <input id="team" placeholder="Liverpool">
+  <input id="year" placeholder="2008">
+  <br><br>
+  <input type="file" id="upload" multiple>
+  <br><br>
+  <button onclick="generate()">Generate Carousel</button>
+  <button onclick="downloadAll()">Download All</button>
 </div>
 
+<div class="container" id="slides"></div>
+
 <script>
-function generate() {
-  document.getElementById("title").innerText =
-    document.getElementById("titleInput").value;
+let images = [];
+
+const dummyImages = [
+  "https://images.unsplash.com/photo-1521417531039-8c1b6b9c1f8d",
+  "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a",
+  "https://images.unsplash.com/photo-1508098682722-e99c643e7f0b",
+  "https://images.unsplash.com/photo-1522778119026-d647f0596c20",
+  "https://images.unsplash.com/photo-1517649763962-0c623066013b"
+];
+
+document.getElementById("upload").addEventListener("change", function(e) {
+  images = [];
+  for (let file of e.target.files) {
+    images.push(URL.createObjectURL(file));
+  }
+});
+
+function random(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
-function download() {
-  html2canvas(document.getElementById("canvas")).then(canvas => {
-    const link = document.createElement("a");
-    link.download = "kit.png";
-    link.href = canvas.toDataURL();
-    link.click();
+function createSlide(titleText, subtitleText) {
+  const div = document.createElement("div");
+  div.className = "slide";
+
+  const usedImages = images.length > 0 ? images : dummyImages;
+
+  usedImages.slice(0, 4).forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+
+    img.style.width = random(120, 250) + "px";
+    img.style.top = random(0, 250) + "px";
+    img.style.left = random(0, 250) + "px";
+    img.style.transform = `rotate(${random(-10, 10)}deg)`;
+
+    div.appendChild(img);
+  });
+
+  const title = document.createElement("div");
+  title.className = "title";
+  title.innerText = titleText;
+
+  const subtitle = document.createElement("div");
+  subtitle.className = "subtitle";
+  subtitle.innerText = subtitleText;
+
+  div.appendChild(title);
+  div.appendChild(subtitle);
+
+  return div;
+}
+
+function generate() {
+  const team = document.getElementById("team").value || "Liverpool";
+  const year = document.getElementById("year").value || "2008";
+
+  const container = document.getElementById("slides");
+  container.innerHTML = "";
+
+  const slidesData = [
+    { title: `${team} ${year}`, sub: "Home Kit" },
+    { title: "Jersey Details", sub: "Badge • Sponsor • Nameset" },
+    { title: "Players", sub: "Gerrard • Torres • Alonso" },
+    { title: "Competitions", sub: "EPL • UCL • FA Cup" },
+    { title: "Achievements", sub: "86 Points • Runner Up" },
+    { title: "Fun Facts", sub: "Iconic Era" }
+  ];
+
+  slidesData.forEach(data => {
+    container.appendChild(createSlide(data.title, data.sub));
+  });
+}
+
+function downloadAll() {
+  const slides = document.querySelectorAll(".slide");
+
+  slides.forEach((slide, i) => {
+    html2canvas(slide).then(canvas => {
+      const link = document.createElement("a");
+      link.download = `slide-${i+1}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    });
   });
 }
 </script>
