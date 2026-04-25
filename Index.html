@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Football Kit Generator</title>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<style>
+body {
+  background: #111;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+}
+
+#canvas {
+  width: 1080px;
+  height: 1080px;
+  margin: auto;
+  background: linear-gradient(135deg, #8B0000, #c40000);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero {
+  position: absolute;
+  width: 600px;
+  top: 120px;
+  left: 60px;
+  transform: rotate(-3deg);
+}
+
+.small {
+  position: absolute;
+  width: 260px;
+  transform: rotate(2deg);
+}
+
+.s1 { top: 60px; right: 60px; }
+.s2 { bottom: 120px; left: 80px; }
+.s3 { bottom: 60px; right: 120px; }
+
+.title {
+  position: absolute;
+  bottom: 60px;
+  left: 50px;
+  font-size: 64px;
+  font-weight: bold;
+}
+
+.subtitle {
+  position: absolute;
+  bottom: 20px;
+  left: 50px;
+  font-size: 24px;
+  opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Football Kit Generator</h2>
+
+<input id="titleInput" placeholder="Liverpool 2008"><br><br>
+
+<button onclick="generate()">Generate</button>
+<button onclick="download()">Download</button>
+
+<div id="canvas">
+  <img class="hero" src="https://via.placeholder.com/600">
+  <img class="small s1" src="https://via.placeholder.com/250">
+  <img class="small s2" src="https://via.placeholder.com/250">
+  <img class="small s3" src="https://via.placeholder.com/250">
+
+  <div class="title" id="title">TITLE</div>
+  <div class="subtitle">footballkitcircle</div>
+</div>
+
+<script>
+function generate() {
+  document.getElementById("title").innerText =
+    document.getElementById("titleInput").value;
+}
+
+function download() {
+  html2canvas(document.getElementById("canvas")).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "kit.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
+</script>
+
+</body>
+</html>
