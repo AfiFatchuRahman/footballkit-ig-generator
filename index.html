@@ -1,1 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+  <title>Football Kit IG Generator</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-5xl mx-auto p-6 space-y-6">
+
+  <!-- TITLE -->
+  <h1 class="text-xl font-bold">IG Generator - FootballKitCircle</h1>
+
+  <!-- CATEGORY -->
+  <div>
+    <label class="text-sm font-medium">Content Category</label>
+    <select class="w-full border p-2 rounded mt-1">
+      <option>Jersey Archive</option>
+    </select>
+  </div>
+
+  <!-- CONTENT FILL -->
+  <div>
+    <div class="flex justify-between items-center mb-2">
+      <label class="text-sm font-medium">Content Fill</label>
+      <button onclick="addContent()" class="text-xs bg-black text-white px-2 py-1 rounded">
+        + Add
+      </button>
+    </div>
+
+    <div id="contentList" class="space-y-2"></div>
+  </div>
+
+  <!-- GENERATE -->
+  <button onclick="generate()" class="w-full bg-black text-white py-2 rounded">
+    Generate
+  </button>
+
+  <!-- RESULT -->
+  <div id="result" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+
+</div>
+
+
+<!-- PREVIEW MODAL -->
+<div id="modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+  <div class="bg-white p-4 rounded w-[300px] aspect-[4/5] relative">
+    <button onclick="closeModal()" class="absolute top-2 right-2 text-sm">X</button>
+    <div id="previewContent"></div>
+  </div>
+</div>
+
+
+<script>
+let contents = []
+
+function addContent() {
+  const id = Date.now()
+
+  contents.push({
+    id,
+    type: 'Cover',
+    template: 'template1',
+    title: '',
+    subtitle: '',
+    image: ''
+  })
+
+  render()
+}
+
+function removeContent(id) {
+  contents = contents.filter(c => c.id !== id)
+  render()
+}
+
+function updateField(id, field, value) {
+  const item = contents.find(c => c.id === id)
+  item[field] = value
+}
+
+function render() {
+  const container = document.getElementById('contentList')
+  container.innerHTML = ''
+
+  contents.forEach(item => {
+    container.innerHTML += `
+      <div class="bg-white p-3 rounded shadow space-y-2">
+
+        <div class="flex justify-between">
+          <select onchange="updateField(${item.id}, 'type', this.value)" class="text-xs border p-1">
+            <option ${item.type==='Cover'?'selected':''}>Cover</option>
+            <option>Jersey Details</option>
+            <option>Players</option>
+            <option>CTA</option>
+          </select>
+
+          <button onclick="removeContent(${item.id})" class="text-red-500 text-xs">Remove</button>
+        </div>
+
+        <select onchange="updateField(${item.id}, 'template', this.value)" class="text-xs border p-1 w-full">
+          <option value="template1">Template 1</option>
+          <option value="template2">Template 2</option>
+        </select>
+
+        <input placeholder="Title" class="w-full border p-1 text-xs"
+          oninput="updateField(${item.id}, 'title', this.value)" />
+
+        <input placeholder="Subtitle" class="w-full border p-1 text-xs"
+          oninput="updateField(${item.id}, 'subtitle', this.value)" />
+
+        <input placeholder="Image URL" class="w-full border p-1 text-xs"
+          oninput="updateField(${item.id}, 'image', this.value)" />
+
+        <div class="flex gap-2">
+          <button onclick="preview(${item.id})" class="text-xs bg-gray-200 px-2 py-1 rounded">
+            Preview
+          </button>
+        </div>
+
+      </div>
+    `
+  })
+}
+
+function preview(id) {
+  const item = contents.find(c => c.id === id)
+  const preview = document.getElementById('previewContent')
+
+  preview.innerHTML = renderTemplate(item)
+
+  document.getElementById('modal').classList.remove('hidden')
+  document.getElementById('modal').classList.add('flex')
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden')
+}
+
+function generate() {
+  const result = document.getElementById('result')
+  result.innerHTML = ''
+
+  contents.forEach(item => {
+    result.innerHTML += `
+      <div class="aspect-[4/5] bg-white shadow overflow-hidden">
+        ${renderTemplate(item)}
+      </div>
+    `
+  })
+}
+
+function renderTemplate(item) {
+  if(item.template === 'template1') {
+    return `
+      <div class="w-full h-full relative text-white">
+
+        <img src="${item.image || 'https://picsum.photos/400/600'}"
+          class="absolute inset-0 w-full h-full object-cover"/>
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+
+        <div class="absolute bottom-4 left-4 right-4">
+          <h2 class="font-bold text-lg leading-tight">${item.title || 'TITLE'}</h2>
+          <p class="text-xs opacity-80">${item.subtitle || 'Subtitle here'}</p>
+        </div>
+
+      </div>
+    `
+  }
+
+  if(item.template === 'template2') {
+    return `
+      <div class="w-full h-full bg-black text-white flex items-center justify-center text-center p-4">
+        <div>
+          <h2 class="text-lg font-bold">${item.title || 'TITLE'}</h2>
+          <p class="text-xs opacity-70">${item.subtitle || 'Subtitle'}</p>
+        </div>
+      </div>
+    `
+  }
+}
+</script>
+
+</body>
+</html>
