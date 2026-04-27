@@ -829,12 +829,18 @@
       const item = generatedItems[index];
       if (!item) return;
 
+      const baselineWidth = 360;
+      const baselineHeight = 450;
+      const exportWidth = 1080;
+      const exportHeight = 1350;
+      const exportScale = exportWidth / baselineWidth;
+
       const exportHost = document.createElement('div');
       exportHost.style.position = 'fixed';
       exportHost.style.left = '-99999px';
       exportHost.style.top = '0';
-      exportHost.style.width = '1080px';
-      exportHost.style.height = '1350px';
+      exportHost.style.width = `${baselineWidth}px`;
+      exportHost.style.height = `${baselineHeight}px`;
       exportHost.style.background = '#000';
       exportHost.style.overflow = 'hidden';
       exportHost.style.zIndex = '-1';
@@ -843,8 +849,8 @@
       const stage = exportHost.firstElementChild;
       if (!stage) return;
 
-      stage.style.width = '1080px';
-      stage.style.height = '1350px';
+      stage.style.width = `${baselineWidth}px`;
+      stage.style.height = `${baselineHeight}px`;
       stage.style.aspectRatio = 'auto';
       stage.style.margin = '0';
       stage.style.maxWidth = 'none';
@@ -858,11 +864,11 @@
         useCORS: true,
         allowTaint: false,
         backgroundColor: null,
-        scale: 1,
-        width: 1080,
-        height: 1350,
-        windowWidth: 1080,
-        windowHeight: 1350
+        scale: exportScale,
+        width: baselineWidth,
+        height: baselineHeight,
+        windowWidth: baselineWidth,
+        windowHeight: baselineHeight
       });
 
       document.body.removeChild(exportHost);
