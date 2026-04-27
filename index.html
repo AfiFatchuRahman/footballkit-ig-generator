@@ -824,8 +824,8 @@
     }
 
     async function exportSlide(index) {
-      const node = document.getElementById(`capture-${index}`);
-      if (!node) return;
+      const item = generatedItems[index];
+      if (!item) return;
 
       const exportHost = document.createElement('div');
       exportHost.style.position = 'fixed';
@@ -837,33 +837,30 @@
       exportHost.style.overflow = 'hidden';
       exportHost.style.zIndex = '-1';
 
-      const clone = node.cloneNode(true);
-      clone.style.width = '1080px';
-      clone.style.height = '1350px';
-      clone.style.aspectRatio = 'auto';
-      clone.style.overflow = 'hidden';
-      clone.querySelectorAll('*').forEach(el => {
-        if (el.style) {
-          if (el.classList.contains('aspect-[4/5]')) {
-            el.style.aspectRatio = 'auto';
-            el.style.width = '100%';
-            el.style.height = '100%';
-          }
-        }
-      });
+      exportHost.innerHTML = renderTemplate(item);
+      const stage = exportHost.firstElementChild;
+      if (!stage) return;
 
-      exportHost.appendChild(clone);
+      stage.style.width = '1080px';
+      stage.style.height = '1350px';
+      stage.style.aspectRatio = 'auto';
+      stage.style.margin = '0';
+      stage.style.maxWidth = 'none';
+      stage.style.minWidth = '0';
+      stage.style.minHeight = '0';
+
       document.body.appendChild(exportHost);
+      await waitForImages(exportHost);
 
-      await waitForImages(clone);
-
-      const canvas = await html2canvas(clone, {
+      const canvas = await html2canvas(stage, {
         useCORS: true,
         allowTaint: false,
         backgroundColor: null,
         scale: 1,
         width: 1080,
-        height: 1350
+        height: 1350,
+        windowWidth: 1080,
+        windowHeight: 1350
       });
 
       document.body.removeChild(exportHost);
