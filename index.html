@@ -2,196 +2,847 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <title>Football Kit IG Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FootballKitCircle IG Generator</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@600;700&family=Poppins:wght@700;800&family=Roboto+Mono:wght@400&family=Monoton&family=Dancing+Script:wght@600&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
   <style>
     body { font-family: 'Inter', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-source-serif { font-family: 'Source Serif 4', serif; }
+    .font-display { font-family: 'Poppins', sans-serif; }
+    .font-script { font-family: 'Dancing Script', cursive; }
+    .font-outline { font-family: 'Monoton', cursive; }
+    .font-mono { font-family: 'Space Mono', monospace; }
+    .font-roboto-mono { font-family: 'Roboto Mono', monospace; }
+
+    .grain::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/noise.png');
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .noise::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+      opacity: 0.15;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    .glow-white {
+      text-shadow: 0 0 8px rgba(255,255,255,0.7);
+    }
+
+    .hex-frame::before {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border: 1px solid #c59d5f;
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+      pointer-events: none;
+    }
+
+    .corner-line-top {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 120px;
+      height: 1px;
+      background: #c59d5f;
+      transform: rotate(25deg);
+    }
+
+    .corner-line-bottom {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 120px;
+      height: 1px;
+      background: #c59d5f;
+      transform: rotate(25deg);
+    }
+
+    .app-shell {
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.08), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(16,185,129,0.08), transparent 24%),
+        #0b0e14;
+    }
+
+    .field-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .builder-scroll::-webkit-scrollbar,
+    .result-scroll::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    .builder-scroll::-webkit-scrollbar-thumb,
+    .result-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.16);
+      border-radius: 999px;
+    }
   </style>
 </head>
+<body class="app-shell min-h-screen text-white">
+  <main class="max-w-7xl mx-auto px-4 py-6 md:px-6 md:py-8 space-y-6">
+    <header class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <p class="text-xs uppercase tracking-[0.35em] text-white/50">FootballKitCircle</p>
+        <h1 class="text-2xl md:text-3xl font-bold mt-2">Instagram Post Generator</h1>
+        <p class="text-sm text-white/65 mt-2 max-w-3xl">
+          MVP generator untuk category <strong>Jersey Archive</strong>. Pilih content fill, pilih slide final design, isi kontennya, generate preview, lalu export per slide ke image.
+        </p>
+      </div>
 
-<body class="bg-gray-100">
+      <div class="flex flex-wrap gap-3">
+        <button id="addContentBtn" class="rounded-xl bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition">
+          + Add Content Fill
+        </button>
+        <button id="generateBtn" class="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-semibold hover:bg-emerald-400 transition">
+          Generate Preview
+        </button>
+        <button id="exportAllBtn" class="rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold hover:bg-sky-400 transition disabled:opacity-50 disabled:cursor-not-allowed">
+          Export All Images
+        </button>
+      </div>
+    </header>
 
-<div class="max-w-5xl mx-auto p-6 space-y-6">
+    <section class="grid grid-cols-1 xl:grid-cols-[420px,1fr] gap-6">
+      <aside class="field-card rounded-2xl p-4 md:p-5 h-fit xl:sticky xl:top-6">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-white/80 mb-2">Content Category</label>
+            <select id="categorySelect" class="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2.5 text-sm outline-none focus:border-emerald-400">
+              <option value="jersey-archive">Jersey Archive</option>
+            </select>
+          </div>
 
-  <!-- TITLE -->
-  <h1 class="text-xl font-bold">IG Generator - FootballKitCircle</h1>
+          <div class="rounded-2xl border border-white/10 bg-black/20 p-3 text-xs text-white/65">
+            <p class="font-semibold text-white/85 mb-1">Flow</p>
+            <ol class="list-decimal pl-4 space-y-1">
+              <li>Tambah content fill</li>
+              <li>Pilih type dan template slide</li>
+              <li>Isi field sesuai kebutuhan template</li>
+              <li>Generate preview</li>
+              <li>Export tiap slide / export all</li>
+            </ol>
+          </div>
 
-  <!-- CATEGORY -->
-  <div>
-    <label class="text-sm font-medium">Content Category</label>
-    <select class="w-full border p-2 rounded mt-1">
-      <option>Jersey Archive</option>
-    </select>
-  </div>
+          <div class="rounded-2xl border border-amber-400/20 bg-amber-400/10 p-3 text-xs text-amber-100">
+            <p class="font-semibold mb-1">Catatan export image</p>
+            <p>URL gambar eksternal bisa kena limit CORS. Kalau mau hasil export paling aman, upload file gambar langsung dari form.</p>
+          </div>
+        </div>
+      </aside>
 
-  <!-- CONTENT FILL -->
-  <div>
-    <div class="flex justify-between items-center mb-2">
-      <label class="text-sm font-medium">Content Fill</label>
-      <button onclick="addContent()" class="text-xs bg-black text-white px-2 py-1 rounded">
-        + Add
-      </button>
-    </div>
-
-    <div id="contentList" class="space-y-2"></div>
-  </div>
-
-  <!-- GENERATE -->
-  <button onclick="generate()" class="w-full bg-black text-white py-2 rounded">
-    Generate
-  </button>
-
-  <!-- RESULT -->
-  <div id="result" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
-
-</div>
-
-
-<!-- PREVIEW MODAL -->
-<div id="modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
-  <div class="bg-white p-4 rounded w-[300px] aspect-[4/5] relative">
-    <button onclick="closeModal()" class="absolute top-2 right-2 text-sm">X</button>
-    <div id="previewContent"></div>
-  </div>
-</div>
-
-
-<script>
-let contents = []
-
-function addContent() {
-  const id = Date.now()
-
-  contents.push({
-    id,
-    type: 'Cover',
-    template: 'template1',
-    title: '',
-    subtitle: '',
-    image: ''
-  })
-
-  render()
-}
-
-function removeContent(id) {
-  contents = contents.filter(c => c.id !== id)
-  render()
-}
-
-function updateField(id, field, value) {
-  const item = contents.find(c => c.id === id)
-  item[field] = value
-}
-
-function render() {
-  const container = document.getElementById('contentList')
-  container.innerHTML = ''
-
-  contents.forEach(item => {
-    container.innerHTML += `
-      <div class="bg-white p-3 rounded shadow space-y-2">
-
-        <div class="flex justify-between">
-          <select onchange="updateField(${item.id}, 'type', this.value)" class="text-xs border p-1">
-            <option ${item.type==='Cover'?'selected':''}>Cover</option>
-            <option>Jersey Details</option>
-            <option>Players</option>
-            <option>CTA</option>
-          </select>
-
-          <button onclick="removeContent(${item.id})" class="text-red-500 text-xs">Remove</button>
+      <section class="grid grid-cols-1 2xl:grid-cols-[minmax(0,480px),1fr] gap-6 min-h-[60vh]">
+        <div class="field-card rounded-2xl p-4 md:p-5 builder-scroll overflow-auto">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="font-semibold">Content Fill Builder</h2>
+              <p class="text-sm text-white/55">Tambah, edit, kurangi, lalu generate hasil carousel.</p>
+            </div>
+            <span id="fillCount" class="text-xs rounded-full bg-white/10 px-3 py-1 text-white/70">0 items</span>
+          </div>
+          <div id="contentList" class="space-y-4"></div>
         </div>
 
-        <select onchange="updateField(${item.id}, 'template', this.value)" class="text-xs border p-1 w-full">
-          <option value="template1">Template 1</option>
-          <option value="template2">Template 2</option>
-        </select>
-
-        <input placeholder="Title" class="w-full border p-1 text-xs"
-          oninput="updateField(${item.id}, 'title', this.value)" />
-
-        <input placeholder="Subtitle" class="w-full border p-1 text-xs"
-          oninput="updateField(${item.id}, 'subtitle', this.value)" />
-
-        <input placeholder="Image URL" class="w-full border p-1 text-xs"
-          oninput="updateField(${item.id}, 'image', this.value)" />
-
-        <div class="flex gap-2">
-          <button onclick="preview(${item.id})" class="text-xs bg-gray-200 px-2 py-1 rounded">
-            Preview
-          </button>
+        <div class="field-card rounded-2xl p-4 md:p-5 result-scroll overflow-auto">
+          <div class="flex items-center justify-between mb-4 gap-4 flex-wrap">
+            <div>
+              <h2 class="font-semibold">Generated Result</h2>
+              <p class="text-sm text-white/55">Preview 4:5 dengan visual final slide tetap dipertahankan.</p>
+            </div>
+            <span id="resultCount" class="text-xs rounded-full bg-white/10 px-3 py-1 text-white/70">0 slides</span>
+          </div>
+          <div id="emptyResult" class="rounded-2xl border border-dashed border-white/10 bg-black/20 p-8 text-center text-sm text-white/45">
+            Belum ada hasil generate. Isi content fill lalu klik <strong>Generate Preview</strong>.
+          </div>
+          <div id="result" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-5"></div>
         </div>
+      </section>
+    </section>
+  </main>
 
-      </div>
-    `
-  })
-}
+  <script>
+    const CATEGORY_CONFIG = {
+      'jersey-archive': {
+        label: 'Jersey Archive',
+        contentTypes: [
+          { value: 'Cover', label: 'Cover', templates: ['slide1', 'slide2', 'slide4'] },
+          { value: 'Jersey Details', label: 'Jersey Details', templates: ['slide2', 'slide5', 'slide6'] },
+          { value: 'Players with Jersey', label: 'Players with Jersey', templates: ['slide1', 'slide3', 'slide4'] },
+          { value: 'Jersey Achievement', label: 'Jersey Achievement', templates: ['slide2', 'slide6'] },
+          { value: 'CTA', label: 'CTA', templates: ['slide7', 'slide4'] }
+        ]
+      }
+    };
 
-function preview(id) {
-  const item = contents.find(c => c.id === id)
-  const preview = document.getElementById('previewContent')
+    const TEMPLATE_REGISTRY = {
+      slide1: {
+        key: 'slide1',
+        name: 'Slide 1 — Futuristic Cover',
+        fields: [
+          { key: 'image', label: 'Background Image', type: 'image' },
+          { key: 'kicker', label: 'Small Top Text', type: 'text' },
+          { key: 'title', label: 'Main Title', type: 'textarea', rows: 2 },
+          { key: 'subtitle', label: 'Subtitle / Club', type: 'text' },
+          { key: 'handle', label: 'Handle', type: 'text' }
+        ],
+        defaults: {
+          image: 'https://picsum.photos/800/1000?random=11',
+          kicker: 'The',
+          title: 'Miracle of Istanbul',
+          subtitle: 'Liverpool FC',
+          handle: '@footballkitcircle'
+        }
+      },
+      slide2: {
+        key: 'slide2',
+        name: 'Slide 2 — Heritage Frame',
+        fields: [
+          { key: 'image', label: 'Main Image (optional)', type: 'image' },
+          { key: 'category', label: 'Category Label', type: 'text' },
+          { key: 'title', label: 'Headline', type: 'textarea', rows: 3 },
+          { key: 'handle', label: 'Handle', type: 'text' }
+        ],
+        defaults: {
+          image: '',
+          category: 'HISTORY',
+          title: 'Liverpool Home Kit 2008\nThe Return of Simplicity',
+          handle: '@footballkitcircle'
+        }
+      },
+      slide3: {
+        key: 'slide3',
+        name: 'Slide 3 — Editorial Grid',
+        fields: [
+          { key: 'sectionLabel', label: 'Section Label', type: 'text' },
+          { key: 'title', label: 'Headline', type: 'textarea', rows: 2 },
+          { key: 'description', label: 'Description', type: 'textarea', rows: 4 },
+          { key: 'mainImage', label: 'Main Left Image', type: 'image' },
+          { key: 'grid1', label: 'Grid Image 1', type: 'image' },
+          { key: 'grid2', label: 'Grid Image 2', type: 'image' },
+          { key: 'grid3', label: 'Grid Image 3', type: 'image' },
+          { key: 'grid4', label: 'Grid Image 4', type: 'image' },
+          { key: 'grid5', label: 'Grid Image 5', type: 'image' },
+          { key: 'grid6', label: 'Grid Image 6', type: 'image' },
+          { key: 'handle', label: 'Handle', type: 'text' }
+        ],
+        defaults: {
+          sectionLabel: 'THE DESIGN',
+          title: 'Visual Stories Redefined',
+          description: 'A modern approach to editorial design through bold typography and immersive imagery.',
+          mainImage: 'https://picsum.photos/600/800?random=21',
+          grid1: 'https://picsum.photos/300/300?random=22',
+          grid2: 'https://picsum.photos/300/300?random=23',
+          grid3: 'https://picsum.photos/300/300?random=24',
+          grid4: 'https://picsum.photos/300/300?random=25',
+          grid5: 'https://picsum.photos/300/300?random=26',
+          grid6: 'https://picsum.photos/300/300?random=27',
+          handle: '@footballkitcircle'
+        }
+      },
+      slide4: {
+        key: 'slide4',
+        name: 'Slide 4 — Bold Feature',
+        fields: [
+          { key: 'image', label: 'Background Image', type: 'image' },
+          { key: 'label', label: 'Small Label', type: 'text' },
+          { key: 'title', label: 'Headline', type: 'textarea', rows: 2 },
+          { key: 'handle', label: 'Handle', type: 'text' }
+        ],
+        defaults: {
+          image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80',
+          label: 'THE JERSEY SCOUT',
+          title: 'MODERN\nFOOTBALL',
+          handle: '@footballkitcircle'
+        }
+      },
+      slide5: {
+        key: 'slide5',
+        name: 'Slide 5 — Comparison Detail',
+        fields: [
+          { key: 'imageTop', label: 'Top / Auth Image', type: 'image' },
+          { key: 'imageBottom', label: 'Bottom / Replica Image', type: 'image' },
+          { key: 'labelTop', label: 'Top Label', type: 'text' },
+          { key: 'labelBottom', label: 'Bottom Label', type: 'text' },
+          { key: 'body', label: 'Body Text', type: 'textarea', rows: 5 }
+        ],
+        defaults: {
+          imageTop: 'https://picsum.photos/800/1000?random=31',
+          imageBottom: 'https://picsum.photos/800/1000?random=32',
+          labelTop: 'DETAIL FABRIC AUTH',
+          labelBottom: 'DETAIL FABRIC REPLIKA',
+          body: 'THE REPLICA VERSION FEATURES A SMOOTHER POLYESTER FINISH WITH LESS BREATHABILITY, WHILE THE AUTH VERSION SHOWS A MORE TECHNICAL WEAVE AND STRUCTURED TEXTURE.'
+        }
+      },
+      slide6: {
+        key: 'slide6',
+        name: 'Slide 6 — Sponsor Spotlight',
+        fields: [
+          { key: 'mainImage', label: 'Main Background Image', type: 'image' },
+          { key: 'overlayImage', label: 'Overlay Small Image', type: 'image' },
+          { key: 'label', label: 'Section Label', type: 'text' },
+          { key: 'title', label: 'Headline', type: 'textarea', rows: 2 },
+          { key: 'body', label: 'Body Text', type: 'textarea', rows: 4 },
+          { key: 'handle', label: 'Handle', type: 'text' }
+        ],
+        defaults: {
+          mainImage: 'https://picsum.photos/800/1000?random=41',
+          overlayImage: 'https://picsum.photos/300/400?random=42',
+          label: 'THE SPONSOR SPOTLIGHT',
+          title: 'ICONIC SPONSOR',
+          body: 'A closer look at the evolution of football shirt sponsorships and how branding became part of the game’s identity.',
+          handle: '@footballkitcircle'
+        }
+      },
+      slide7: {
+        key: 'slide7',
+        name: 'Slide 7 — CTA Slide',
+        fields: [
+          { key: 'image', label: 'Background Image', type: 'image' },
+          { key: 'title', label: 'CTA Title', type: 'textarea', rows: 2 },
+          { key: 'subtitle', label: 'Supporting Text', type: 'textarea', rows: 3 },
+          { key: 'ctaText', label: 'Center CTA Text', type: 'textarea', rows: 3 },
+          { key: 'handle', label: 'Handle', type: 'text' }
+        ],
+        defaults: {
+          image: 'https://picsum.photos/800/1000?grayscale&random=51',
+          title: 'YOUR KITS.\nYOUR STORY.',
+          subtitle: 'Every kit tells a story. Start documenting yours.',
+          ctaText: 'Follow us and Go to\nwww.footballkitcircle.com',
+          handle: '@footballkitcircle'
+        }
+      }
+    };
 
-  preview.innerHTML = renderTemplate(item)
+    let items = [];
+    let generatedItems = [];
 
-  document.getElementById('modal').classList.remove('hidden')
-  document.getElementById('modal').classList.add('flex')
-}
+    function uid() {
+      return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    }
 
-function closeModal() {
-  document.getElementById('modal').classList.add('hidden')
-}
+    function escapeHtml(value = '') {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
 
-function generate() {
-  const result = document.getElementById('result')
-  result.innerHTML = ''
+    function nl2br(value = '') {
+      return escapeHtml(value).replace(/\n/g, '<br/>');
+    }
 
-  contents.forEach(item => {
-    result.innerHTML += `
-      <div class="aspect-[4/5] bg-white shadow overflow-hidden">
-        ${renderTemplate(item)}
-      </div>
-    `
-  })
-}
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
 
-function renderTemplate(item) {
-  if(item.template === 'template1') {
-    return `
-      <div class="w-full h-full relative text-white">
+    function getContentTypes() {
+      return CATEGORY_CONFIG[document.getElementById('categorySelect').value].contentTypes;
+    }
 
-        <img src="${item.image || 'https://picsum.photos/400/600'}"
-          class="absolute inset-0 w-full h-full object-cover"/>
+    function getContentTypeConfig(type) {
+      return getContentTypes().find(item => item.value === type) || getContentTypes()[0];
+    }
 
-        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+    function getDefaultTemplateForType(type) {
+      return getContentTypeConfig(type).templates[0];
+    }
 
-        <div class="absolute bottom-4 left-4 right-4">
-          <h2 class="font-bold text-lg leading-tight">${item.title || 'TITLE'}</h2>
-          <p class="text-xs opacity-80">${item.subtitle || 'Subtitle here'}</p>
+    function createItem(type = 'Cover') {
+      const templateKey = getDefaultTemplateForType(type);
+      return {
+        id: uid(),
+        type,
+        template: templateKey,
+        data: deepClone(TEMPLATE_REGISTRY[templateKey].defaults)
+      };
+    }
+
+    function ensureItemTemplate(item) {
+      const typeConfig = getContentTypeConfig(item.type);
+      if (!typeConfig.templates.includes(item.template)) {
+        item.template = typeConfig.templates[0];
+      }
+      item.data = {
+        ...deepClone(TEMPLATE_REGISTRY[item.template].defaults),
+        ...item.data
+      };
+    }
+
+    function addItem(type = 'Cover') {
+      items.push(createItem(type));
+      renderBuilder();
+    }
+
+    function removeItem(id) {
+      items = items.filter(item => item.id !== id);
+      renderBuilder();
+    }
+
+    function duplicateItem(id) {
+      const source = items.find(item => item.id === id);
+      if (!source) return;
+      const copy = deepClone(source);
+      copy.id = uid();
+      items.push(copy);
+      renderBuilder();
+    }
+
+    function moveItem(id, direction) {
+      const index = items.findIndex(item => item.id === id);
+      if (index < 0) return;
+      const target = index + direction;
+      if (target < 0 || target >= items.length) return;
+      const [item] = items.splice(index, 1);
+      items.splice(target, 0, item);
+      renderBuilder();
+    }
+
+    function updateType(id, nextType) {
+      const item = items.find(entry => entry.id === id);
+      if (!item) return;
+      item.type = nextType;
+      item.template = getDefaultTemplateForType(nextType);
+      item.data = deepClone(TEMPLATE_REGISTRY[item.template].defaults);
+      renderBuilder();
+    }
+
+    function updateTemplate(id, templateKey) {
+      const item = items.find(entry => entry.id === id);
+      if (!item) return;
+      item.template = templateKey;
+      item.data = {
+        ...deepClone(TEMPLATE_REGISTRY[templateKey].defaults),
+        ...item.data
+      };
+      renderBuilder();
+    }
+
+    function updateField(id, field, value) {
+      const item = items.find(entry => entry.id === id);
+      if (!item) return;
+      item.data[field] = value;
+    }
+
+    function clearImage(id, field) {
+      updateField(id, field, '');
+      renderBuilder();
+    }
+
+    function handleImageUpload(id, field, input) {
+      const file = input.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        updateField(id, field, reader.result);
+        renderBuilder();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function getImageBadge(src) {
+      if (!src) return '<span class="text-[11px] text-white/35">No image set</span>';
+      if (src.startsWith('data:')) {
+        return '<span class="text-[11px] text-emerald-300">Uploaded image selected</span>';
+      }
+      return '<span class="text-[11px] text-white/45">Using image URL</span>';
+    }
+
+    function renderField(item, field) {
+      const value = item.data[field.key] ?? '';
+      const inputBase = 'w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none focus:border-emerald-400';
+
+      if (field.type === 'textarea') {
+        return `
+          <label class="block space-y-2">
+            <span class="text-xs font-medium text-white/75">${field.label}</span>
+            <textarea rows="${field.rows || 3}" class="${inputBase}" oninput="updateField('${item.id}', '${field.key}', this.value)">${escapeHtml(value)}</textarea>
+          </label>
+        `;
+      }
+
+      if (field.type === 'image') {
+        const preview = value
+          ? `<div class="overflow-hidden rounded-xl border border-white/10 bg-black/30"><img src="${escapeHtml(value)}" alt="" class="h-28 w-full object-cover"/></div>`
+          : '';
+
+        return `
+          <div class="space-y-2 rounded-2xl border border-white/10 bg-white/[0.02] p-3">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-xs font-medium text-white/75">${field.label}</span>
+              ${getImageBadge(value)}
+            </div>
+            ${preview}
+            <input value="${value.startsWith('data:') ? '' : escapeHtml(value)}" placeholder="Paste image URL" class="${inputBase}" oninput="updateField('${item.id}', '${field.key}', this.value)" />
+            <div class="flex flex-wrap gap-2">
+              <label class="inline-flex cursor-pointer items-center rounded-xl bg-white/10 px-3 py-2 text-xs font-medium hover:bg-white/15 transition">
+                Upload Image
+                <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload('${item.id}', '${field.key}', this)" />
+              </label>
+              <button type="button" onclick="clearImage('${item.id}', '${field.key}')" class="rounded-xl border border-white/10 px-3 py-2 text-xs text-white/75 hover:bg-white/5 transition">
+                Clear
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <label class="block space-y-2">
+          <span class="text-xs font-medium text-white/75">${field.label}</span>
+          <input value="${escapeHtml(value)}" class="${inputBase}" oninput="updateField('${item.id}', '${field.key}', this.value)" />
+        </label>
+      `;
+    }
+
+    function renderBuilder() {
+      const list = document.getElementById('contentList');
+      const fillCount = document.getElementById('fillCount');
+      fillCount.textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
+
+      if (!items.length) {
+        list.innerHTML = `
+          <div class="rounded-2xl border border-dashed border-white/10 bg-black/20 p-8 text-center text-sm text-white/45">
+            Belum ada content fill. Klik <strong>Add Content Fill</strong> untuk mulai.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = items.map((item, index) => {
+        ensureItemTemplate(item);
+        const typeConfig = getContentTypeConfig(item.type);
+        const template = TEMPLATE_REGISTRY[item.template];
+
+        return `
+          <article class="rounded-2xl border border-white/10 bg-black/20 p-4 space-y-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-white/35">Content Fill ${index + 1}</p>
+                <h3 class="font-semibold mt-1">${escapeHtml(item.type)}</h3>
+              </div>
+              <div class="flex flex-wrap gap-2 justify-end">
+                <button type="button" onclick="moveItem('${item.id}', -1)" class="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-white/70 hover:bg-white/5">↑</button>
+                <button type="button" onclick="moveItem('${item.id}', 1)" class="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-white/70 hover:bg-white/5">↓</button>
+                <button type="button" onclick="duplicateItem('${item.id}')" class="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-white/70 hover:bg-white/5">Duplicate</button>
+                <button type="button" onclick="removeItem('${item.id}')" class="rounded-lg bg-red-500/15 px-2.5 py-1.5 text-xs text-red-200 hover:bg-red-500/25">Remove</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <label class="block space-y-2">
+                <span class="text-xs font-medium text-white/75">Content Fill</span>
+                <select class="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm outline-none focus:border-emerald-400" onchange="updateType('${item.id}', this.value)">
+                  ${getContentTypes().map(type => `<option value="${type.value}" ${type.value === item.type ? 'selected' : ''}>${type.label}</option>`).join('')}
+                </select>
+              </label>
+
+              <label class="block space-y-2">
+                <span class="text-xs font-medium text-white/75">Display Template</span>
+                <select class="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm outline-none focus:border-emerald-400" onchange="updateTemplate('${item.id}', this.value)">
+                  ${typeConfig.templates.map(templateKey => `<option value="${templateKey}" ${templateKey === item.template ? 'selected' : ''}>${TEMPLATE_REGISTRY[templateKey].name}</option>`).join('')}
+                </select>
+              </label>
+            </div>
+
+            <div class="rounded-2xl border border-white/10 bg-black/20 p-3 space-y-3">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="text-xs uppercase tracking-[0.25em] text-white/35">Template Fields</p>
+                  <p class="text-sm text-white/60 mt-1">Field menyesuaikan dengan komponen yang dipakai template.</p>
+                </div>
+                <span class="text-[11px] rounded-full bg-white/10 px-2.5 py-1 text-white/55">${template.name}</span>
+              </div>
+              <div class="space-y-3">
+                ${template.fields.map(field => renderField(item, field)).join('')}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function generate() {
+      generatedItems = deepClone(items);
+      renderResults();
+    }
+
+    function renderResults() {
+      const result = document.getElementById('result');
+      const resultCount = document.getElementById('resultCount');
+      const emptyState = document.getElementById('emptyResult');
+      const exportAllBtn = document.getElementById('exportAllBtn');
+
+      resultCount.textContent = `${generatedItems.length} slide${generatedItems.length === 1 ? '' : 's'}`;
+      exportAllBtn.disabled = generatedItems.length === 0;
+
+      if (!generatedItems.length) {
+        emptyState.classList.remove('hidden');
+        result.innerHTML = '';
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      result.innerHTML = generatedItems.map((item, index) => `
+        <article class="space-y-3">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-white/35">Slide ${index + 1}</p>
+              <h3 class="font-medium text-sm text-white/75">${escapeHtml(item.type)} · ${escapeHtml(TEMPLATE_REGISTRY[item.template].name)}</h3>
+            </div>
+            <button onclick="exportSlide(${index})" class="rounded-xl bg-white text-black px-3 py-2 text-xs font-semibold hover:bg-white/90 transition">
+              Export PNG
+            </button>
+          </div>
+          <div id="capture-${index}" class="rounded-[28px] overflow-hidden bg-black shadow-2xl shadow-black/30 ring-1 ring-white/10">
+            ${renderTemplate(item)}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function renderTemplate(item) {
+      const data = item.data || {};
+      switch (item.template) {
+        case 'slide1': return renderSlide1(data);
+        case 'slide2': return renderSlide2(data);
+        case 'slide3': return renderSlide3(data);
+        case 'slide4': return renderSlide4(data);
+        case 'slide5': return renderSlide5(data);
+        case 'slide6': return renderSlide6(data);
+        case 'slide7': return renderSlide7(data);
+        default: return '<div class="aspect-[4/5] flex items-center justify-center bg-black text-white">Unknown template</div>';
+      }
+    }
+
+    function renderSlide1(data) {
+      return `
+        <div class="relative w-full aspect-[4/5] overflow-hidden grain text-white bg-black">
+          <img src="${escapeHtml(data.image)}" class="absolute inset-0 w-full h-full object-cover" crossorigin="anonymous" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 via-black/30 to-transparent"></div>
+          <div class="absolute top-4 right-4 w-[25%] h-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute top-4 right-4 h-[30%] w-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute bottom-4 left-4 w-[25%] h-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute bottom-4 left-4 h-[30%] w-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+            <p class="text-xl mb-2 glow-white">${nl2br(data.kicker)}</p>
+            <h1 class="text-4xl md:text-5xl leading-tight glow-white">${nl2br(data.title)}</h1>
+            <div class="flex items-center gap-3 justify-center mt-3">
+              <p class="font-mono text-[11px] tracking-widest">${nl2br(data.subtitle)}</p>
+            </div>
+            <div class="absolute bottom-4 right-4 text-[10px] tracking-wide">${escapeHtml(data.handle)}</div>
+          </div>
         </div>
+      `;
+    }
 
-      </div>
-    `
-  }
+    function renderSlide2(data) {
+      const background = data.image
+        ? `<img src="${escapeHtml(data.image)}" class="absolute inset-0 h-full w-full object-cover" crossorigin="anonymous" />`
+        : `
+          <svg viewBox="0 0 400 500" class="w-full h-full object-cover">
+            <defs>
+              <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1a1a2e"/>
+                <stop offset="100%" stop-color="#000000"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#bgGrad)" />
+            <circle cx="200" cy="160" r="55" fill="#2a2a2a"/>
+            <rect x="130" y="210" width="140" height="200" rx="25" fill="#2a2a2a"/>
+            <rect x="130" y="250" width="140" height="50" fill="#c59d5f" opacity="0.4"/>
+          </svg>
+        `;
 
-  if(item.template === 'template2') {
-    return `
-      <div class="w-full h-full bg-black text-white flex items-center justify-center text-center p-4">
-        <div>
-          <h2 class="text-lg font-bold">${item.title || 'TITLE'}</h2>
-          <p class="text-xs opacity-70">${item.subtitle || 'Subtitle'}</p>
+      return `
+        <div class="relative w-full aspect-[4/5] overflow-hidden rounded-xl noise bg-black text-white">
+          <div class="absolute inset-0">${background}</div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+          <div class="absolute inset-0 hex-frame"></div>
+          <div class="corner-line-top"></div>
+          <div class="corner-line-bottom"></div>
+          <div class="absolute top-4 left-4 border border-[#c59d5f] px-2 py-1 text-xs text-white">${escapeHtml(data.handle)}</div>
+          <div class="absolute bottom-0 p-6 text-white">
+            <p class="text-xs tracking-[0.35em] text-gray-300 mb-2">${escapeHtml(data.category)}</p>
+            <h1 class="font-playfair text-2xl leading-tight font-bold">${nl2br(data.title)}</h1>
+          </div>
         </div>
-      </div>
-    `
-  }
-}
-</script>
+      `;
+    }
 
+    function renderSlide3(data) {
+      const gridKeys = ['grid1', 'grid2', 'grid3', 'grid4', 'grid5', 'grid6'];
+      return `
+        <div class="relative w-full aspect-[4/5] flex flex-col overflow-hidden shadow-2xl bg-white text-black">
+          <section class="bg-[#0f1f1c] px-5 py-6 text-white">
+            <p class="text-[7px] tracking-[0.3em] text-white/60 mb-2 font-bold">${escapeHtml(data.sectionLabel)}</p>
+            <h1 class="font-source-serif text-xl leading-tight mb-3">${nl2br(data.title)}</h1>
+            <p class="text-xs text-white/70 leading-relaxed max-w-[90%]">${nl2br(data.description)}</p>
+          </section>
+          <section class="relative flex-1 flex overflow-hidden">
+            <div class="w-1/2 h-full">
+              <img src="${escapeHtml(data.mainImage)}" class="w-full h-full object-cover" crossorigin="anonymous" />
+            </div>
+            <div class="w-1/2 h-full grid grid-cols-2 grid-rows-3">
+              ${gridKeys.map(key => `<img src="${escapeHtml(data[key])}" class="w-full h-full object-cover" crossorigin="anonymous" />`).join('')}
+            </div>
+          </section>
+          <div class="absolute top-4 right-4 text-white text-[10px] tracking-wide opacity-70">${escapeHtml(data.handle)}</div>
+        </div>
+      `;
+    }
+
+    function renderSlide4(data) {
+      return `
+        <div class="relative w-full aspect-[4/5] overflow-hidden group bg-black text-white">
+          <img src="${escapeHtml(data.image)}" class="w-full h-full object-cover" crossorigin="anonymous" />
+          <div class="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 p-8 text-white">
+            <p class="text-[8px] tracking-[0.3em] opacity-80 mb-3">${escapeHtml(data.label)}</p>
+            <h1 class="font-display font-extrabold text-2xl leading-tight tracking-tight">${nl2br(data.title)}</h1>
+          </div>
+          <div class="absolute bottom-4 right-4 text-[10px] tracking-wide">${escapeHtml(data.handle)}</div>
+        </div>
+      `;
+    }
+
+    function renderSlide5(data) {
+      return `
+        <div class="w-full aspect-[4/5] bg-white overflow-hidden shadow-xl flex flex-col text-black">
+          <div class="relative w-full h-[66%] overflow-hidden">
+            <div class="absolute inset-0">
+              <img src="${escapeHtml(data.imageTop)}" class="w-full h-full object-cover" crossorigin="anonymous" style="clip-path: polygon(0 0, 100% 0, 100% 100%);" />
+            </div>
+            <div class="absolute inset-0">
+              <img src="${escapeHtml(data.imageBottom)}" class="w-full h-full object-cover" crossorigin="anonymous" style="clip-path: polygon(0 0, 0 100%, 100% 100%);" />
+            </div>
+            <div class="absolute bottom-6 left-4 bg-white px-3 py-1 text-[10px] font-medium tracking-wide text-black">${escapeHtml(data.labelBottom)}</div>
+            <div class="absolute top-6 right-4 bg-white px-3 py-1 text-[10px] font-medium tracking-wide text-black">${escapeHtml(data.labelTop)}</div>
+            <div class="absolute bottom-4 right-4 bg-black/40 backdrop-blur-sm rounded-full p-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9l6 6m0-6l-6 6M15 9v6M9 9v6" />
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1 px-6 py-6">
+            <p class="text-[13px] leading-relaxed uppercase text-gray-800 max-w-xs font-medium">${nl2br(data.body)}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSlide6(data) {
+      return `
+        <div class="relative w-full aspect-[4/5] overflow-hidden bg-black text-white">
+          <img src="${escapeHtml(data.mainImage)}" class="absolute inset-0 w-full h-full object-cover" crossorigin="anonymous" />
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(0,0,0,0.4),transparent_60%)]"></div>
+          <div class="absolute bottom-0 left-0 w-full h-[65%]" style="background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%);"></div>
+          <div class="absolute top-6 right-6 w-36 h-56 border-2 border-white overflow-hidden shadow-xl">
+            <img src="${escapeHtml(data.overlayImage)}" class="w-full h-full object-cover" crossorigin="anonymous" />
+          </div>
+          <div class="absolute bottom-0 left-0 p-6 md:p-8 text-white">
+            <p class="text-[7px] tracking-[0.3em] opacity-70 mb-2">${escapeHtml(data.label)}</p>
+            <h1 class="font-display font-extrabold text-2xl leading-tight mb-2">${nl2br(data.title)}</h1>
+            <p class="text-xs leading-tight max-w-xs opacity-75">${nl2br(data.body)}</p>
+          </div>
+          <div class="absolute top-4 left-4 text-[10px] tracking-wide">${escapeHtml(data.handle)}</div>
+        </div>
+      `;
+    }
+
+    function renderSlide7(data) {
+      return `
+        <div class="relative w-full aspect-[4/5] overflow-hidden text-white grain bg-black">
+          <img src="${escapeHtml(data.image)}" class="absolute inset-0 w-full h-full object-cover" crossorigin="anonymous" />
+          <div class="absolute bottom-0 left-0 w-full h-[65%] bg-gradient-to-t from-black via-black/80 via-black/50 to-transparent"></div>
+          <div class="absolute inset-0 p-6 md:p-8">
+            <div class="absolute top-6 left-6 md:left-8">
+              <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-1">${nl2br(data.title)}</h1>
+              <p class="text-sm leading-relaxed opacity-80 ml-1">${nl2br(data.subtitle)}</p>
+            </div>
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 mt-4">
+              <p class="text-base leading-tight">${nl2br(data.ctaText)}</p>
+            </div>
+          </div>
+          <div class="absolute bottom-4 right-4 text-[10px] tracking-wide opacity-60">${escapeHtml(data.handle)}</div>
+        </div>
+      `;
+    }
+
+    async function exportSlide(index) {
+      const node = document.getElementById(`capture-${index}`);
+      if (!node) return;
+      const canvas = await html2canvas(node, {
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: null,
+        scale: 2
+      });
+      const link = document.createElement('a');
+      link.download = `footballkitcircle-slide-${String(index + 1).padStart(2, '0')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    async function exportAll() {
+      for (let i = 0; i < generatedItems.length; i += 1) {
+        await exportSlide(i);
+        await new Promise(resolve => setTimeout(resolve, 250));
+      }
+    }
+
+    function resetWithSample() {
+      items = [
+        createItem('Cover'),
+        createItem('Jersey Details'),
+        createItem('Players with Jersey'),
+        createItem('Jersey Achievement'),
+        createItem('CTA')
+      ];
+      items[1].template = 'slide5';
+      items[1].data = deepClone(TEMPLATE_REGISTRY.slide5.defaults);
+      items[2].template = 'slide3';
+      items[2].data = deepClone(TEMPLATE_REGISTRY.slide3.defaults);
+      items[3].template = 'slide6';
+      items[3].data = deepClone(TEMPLATE_REGISTRY.slide6.defaults);
+      items[4].template = 'slide7';
+      items[4].data = deepClone(TEMPLATE_REGISTRY.slide7.defaults);
+      renderBuilder();
+      generate();
+    }
+
+    document.getElementById('addContentBtn').addEventListener('click', () => addItem('Cover'));
+    document.getElementById('generateBtn').addEventListener('click', generate);
+    document.getElementById('exportAllBtn').addEventListener('click', exportAll);
+    document.getElementById('categorySelect').addEventListener('change', () => {
+      items = items.map(item => {
+        ensureItemTemplate(item);
+        return item;
+      });
+      renderBuilder();
+    });
+
+    resetWithSample();
+  </script>
 </body>
 </html>
