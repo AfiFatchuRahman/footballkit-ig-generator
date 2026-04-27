@@ -659,20 +659,20 @@
 
     function renderSlide1(data) {
       return `
-        <div class="relative w-full aspect-[4/5] overflow-hidden grain text-white bg-black">
+        <div class="relative w-full aspect-[4/5] overflow-hidden grain text-white bg-black" style="container-type:inline-size;">
           <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('${escapeHtml(data.image)}');"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 via-black/30 to-transparent"></div>
-          <div class="absolute top-4 right-4 w-[25%] h-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
-          <div class="absolute top-4 right-4 h-[30%] w-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
-          <div class="absolute bottom-4 left-4 w-[25%] h-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
-          <div class="absolute bottom-4 left-4 h-[30%] w-[0.5px] bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
-          <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-            <p class="text-xl mb-2 glow-white">${nl2br(data.kicker)}</p>
-            <h1 class="text-4xl md:text-5xl leading-tight glow-white">${nl2br(data.title)}</h1>
-            <div class="flex items-center gap-3 justify-center mt-3">
-              <p class="font-mono text-[11px] tracking-widest">${nl2br(data.subtitle)}</p>
+          <div class="absolute right-[4cqw] top-[4cqw] w-[25%] h-px bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute right-[4cqw] top-[4cqw] h-[30%] w-px bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute left-[4cqw] bottom-[4cqw] w-[25%] h-px bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute left-[4cqw] bottom-[4cqw] h-[30%] w-px bg-[#d4af37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"></div>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-[6cqw]">
+            <p class="glow-white" style="font-size:clamp(20px,5.2cqw,56px); margin-bottom:clamp(8px,1.8cqw,20px);">${nl2br(data.kicker)}</p>
+            <h1 class="glow-white leading-tight" style="font-size:clamp(36px,10.2cqw,112px);">${nl2br(data.title)}</h1>
+            <div class="flex items-center gap-[1.2cqw] justify-center mt-[2.4cqw]">
+              <p class="font-mono tracking-[0.28em]" style="font-size:clamp(11px,2.3cqw,24px);">${nl2br(data.subtitle)}</p>
             </div>
-            <div class="absolute bottom-4 right-4 text-[10px] tracking-wide">${escapeHtml(data.handle)}</div>
+            <div class="absolute right-[4cqw] bottom-[4cqw] tracking-wide" style="font-size:clamp(10px,2cqw,20px);">${escapeHtml(data.handle)}</div>
           </div>
         </div>
       `;
