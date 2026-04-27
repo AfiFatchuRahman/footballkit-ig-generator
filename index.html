@@ -826,58 +826,50 @@
     }
 
     async function exportSlide(index) {
-      const node = document.getElementById(`capture-${index}`);
-      if (!node) return;
+      const item = generatedItems[index];
+      if (!item) return;
 
       const exportHost = document.createElement('div');
       exportHost.style.position = 'fixed';
       exportHost.style.left = '-99999px';
       exportHost.style.top = '0';
-      exportHost.style.width = `${node.offsetWidth}px`;
-      exportHost.style.height = `${node.offsetHeight}px`;
+      exportHost.style.width = '1080px';
+      exportHost.style.height = '1350px';
       exportHost.style.background = '#000';
       exportHost.style.overflow = 'hidden';
       exportHost.style.zIndex = '-1';
 
-      const clone = node.cloneNode(true);
-      clone.style.width = `${node.offsetWidth}px`;
-      clone.style.height = `${node.offsetHeight}px`;
-      clone.style.aspectRatio = 'auto';
-      clone.style.margin = '0';
-      clone.style.maxWidth = 'none';
-      clone.style.minWidth = '0';
-      clone.style.minHeight = '0';
+      exportHost.innerHTML = renderTemplate(item);
+      const stage = exportHost.firstElementChild;
+      if (!stage) return;
 
-      exportHost.appendChild(clone);
+      stage.style.width = '1080px';
+      stage.style.height = '1350px';
+      stage.style.aspectRatio = 'auto';
+      stage.style.margin = '0';
+      stage.style.maxWidth = 'none';
+      stage.style.minWidth = '0';
+      stage.style.minHeight = '0';
+
       document.body.appendChild(exportHost);
       await waitForImages(exportHost);
 
-      const targetWidth = 1080;
-      const targetHeight = 1350;
-      const scale = Math.max(1, targetWidth / node.offsetWidth);
-
-      const canvas = await html2canvas(clone, {
+      const canvas = await html2canvas(stage, {
         useCORS: true,
         allowTaint: false,
         backgroundColor: null,
-        scale,
-        width: node.offsetWidth,
-        height: node.offsetHeight,
-        windowWidth: node.offsetWidth,
-        windowHeight: node.offsetHeight
+        scale: 1,
+        width: 1080,
+        height: 1350,
+        windowWidth: 1080,
+        windowHeight: 1350
       });
 
       document.body.removeChild(exportHost);
 
-      const finalCanvas = document.createElement('canvas');
-      finalCanvas.width = targetWidth;
-      finalCanvas.height = targetHeight;
-      const ctx = finalCanvas.getContext('2d');
-      ctx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
-
       const link = document.createElement('a');
       link.download = `footballkitcircle-slide-${String(index + 1).padStart(2, '0')}.png`;
-      link.href = finalCanvas.toDataURL('image/png');
+      link.href = canvas.toDataURL('image/png');
       link.click();
     }
 
