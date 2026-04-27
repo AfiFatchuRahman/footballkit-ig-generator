@@ -96,6 +96,21 @@
       background: rgba(255,255,255,0.16);
       border-radius: 999px;
     }
+
+    .preview-stage {
+      width: min(100%, 360px);
+      margin-inline: auto;
+    }
+
+    .preview-canvas {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #000;
+      border-radius: 28px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+      outline: 1px solid rgba(255,255,255,0.08);
+    }
   </style>
 </head>
 <body class="app-shell min-h-screen text-white">
@@ -604,7 +619,7 @@
 
       emptyState.classList.add('hidden');
       result.innerHTML = generatedItems.map((item, index) => `
-        <article class="space-y-3">
+        <article class="space-y-3 rounded-3xl border border-white/8 bg-black/10 p-3 md:p-4">
           <div class="flex items-center justify-between gap-3">
             <div>
               <p class="text-xs uppercase tracking-[0.25em] text-white/35">Slide ${index + 1}</p>
@@ -614,8 +629,10 @@
               Export PNG
             </button>
           </div>
-          <div id="capture-${index}" class="rounded-[28px] overflow-hidden bg-black shadow-2xl shadow-black/30 ring-1 ring-white/10">
-            ${renderTemplate(item)}
+          <div class="preview-stage">
+            <div id="capture-${index}" class="preview-canvas">
+              ${renderTemplate(item)}
+            </div>
           </div>
         </article>
       `).join('');
